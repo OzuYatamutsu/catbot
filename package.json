@@ -4,7 +4,7 @@
   "description": "Cat-related Discord bot for great good. ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node --presets es2015 ./index.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,8 @@
     "url": "https://github.com/OzuYatamutsu/catbot/issues"
   },
   "dependencies": {
-    "discord.io": "*"
+    "discord.io": "*",
+    "babel-cli": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0"
   }
 }
