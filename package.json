@@ -14,5 +14,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/OzuYatamutsu/catbot/issues"
+  },
+  "dependencies": {
+    "discord.io": "*"
   }
 }
