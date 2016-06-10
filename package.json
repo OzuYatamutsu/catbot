@@ -1,0 +1,18 @@
+{
+  "name": "catbot",
+  "version": "0.0.0",
+  "description": "Cat-related Discord bot for great good. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OzuYatamutsu/catbot.git"
+  },
+  "author": "Jinhai Steakhouse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OzuYatamutsu/catbot/issues"
+  }
+}
