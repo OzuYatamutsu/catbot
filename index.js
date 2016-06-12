@@ -14,7 +14,7 @@ bot.on('ready', _ => {
 
 bot.on('message', (user, userId, channelId, message, event) => {
   if (!handler[message]) return;
-  handler[message]().then((response) => {
+  handler[message].then((response) => {
     bot.sendMessage({
       to: channelId,
       message: response
