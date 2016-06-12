@@ -8,6 +8,7 @@ function stringRespond(str) {
 }
 
 module.exports = {
+  "@catbot": _ => { return stringRespond(`_The cat completely ignores you._`) },
   "Fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
   "good ket": _ => { return stringRespond(`=´∇｀=`) },
   "!debug fire cat open-mouth": _ => { return stringRespond(`https://steakscorp.org/public_utils/catcons/images/cat.png`) },
