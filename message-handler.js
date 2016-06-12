@@ -8,12 +8,12 @@ function stringRespond(str) {
 }
 
 module.exports = {
-  "Fresh steak": stringRespond(`steak here =｀ω´=`),
-  "good ket": stringRespond(`=´∇｀=`),
-  "!debug fire cat open-mouth": stringRespond(`https://steakscorp.org/public_utils/catcons/images/cat.png`),
-  "catbot you need to go to bed myan": stringRespond(`Time for sleeps =-w-= \n http://www.ohgizmo.com/wp-content/uploads/2014/03/Cat-Burger-Pillow.jpg`),
-  "ping": stringRespond(`pong`),
-  "!debug run-func": generators.onDebugRunFunc(),
-  "!catpic": generators.findCatPic(),
-  "!debug rand": generators.onDebugRand()
+  "Fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
+  "good ket": _ => { return stringRespond(`=´∇｀=`) },
+  "!debug fire cat open-mouth": _ => { return stringRespond(`https://steakscorp.org/public_utils/catcons/images/cat.png`) },
+  "catbot you need to go to bed myan": _ => { return stringRespond(`Time for sleeps =-w-= \n http://www.ohgizmo.com/wp-content/uploads/2014/03/Cat-Burger-Pillow.jpg`) },
+  "ping": _ => { return stringRespond(`pong`) },
+  "!debug run-func": generators.onDebugRunFunc,
+  "!catpic": generators.findCatPic,
+  "!debug rand": generators.onDebugRand
 };

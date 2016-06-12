@@ -1,15 +1,6 @@
 const googleImages = require('google-images');
 
-function randomIndex(array) {
-  return Math.floor(Math.random() * array.length);
-}
-
-
-
 module.exports = {
-  "rand": function(len) {
-    return Math.random();
-  },
   "onDebugRunFunc": _ => { return Promise.resolve(9+9); },
   "findCatPic": _ => {
     const cse_id = "007659116903720282115:lxppsh-kie8";
@@ -25,6 +16,6 @@ module.exports = {
   },
   "onDebugRand": function() {
     const len = 10;
-    return Promise.resolve(this.rand(len));
+    return Promise.resolve(Math.random());
   }
 };
