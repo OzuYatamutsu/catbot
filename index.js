@@ -13,6 +13,7 @@ bot.on('ready', _ => {
 });
 
 bot.on('message', (user, userId, channelId, message, event) => {
+  message = message.toLowerCase()
   if (message.indexOf(bot.id) !== -1) message = "@catbot";
   if (!handler[message]) return;
   handler[message].call().then((response) => {
