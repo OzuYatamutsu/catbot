@@ -15,5 +15,6 @@ module.exports = {
   "ping": _ => { return stringRespond(`pong`) },
   "!debug run-func": generators.onDebugRunFunc,
   "!catpic": generators.findCatPic,
-  "!debug rand": generators.onDebugRand
+  "!debug rand": generators.onDebugRand,
+  "!catbot reaction": generators.doCatReaction
 };

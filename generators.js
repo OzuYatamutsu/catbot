@@ -1,4 +1,5 @@
 const googleImages = require('google-images');
+const request = require('request-promise');
 
 module.exports = {
   "onDebugRunFunc": _ => { return Promise.resolve(9+9); },
@@ -12,6 +13,18 @@ module.exports = {
         return Promise.resolve(
           `DEBUG: I generated a ${index} with ${images.length} results\n ${images[index].url}`
         );
+      });
+  },
+  "doCatReaction": _ => {
+    return request("http://steakscorp.org/other/expression-machine-cat-only.php")
+      .then((body) => {
+        const items = body.split('<br />');
+        var index = Math.floor(Math.random() * items.length);
+          
+        return Promise.resolve(`http://steakscorp.org/expressions.png/${items[index]}`);
+       })
+      .catch((err) => {
+        return Promise.resolve(`ERROR! ${err}`);
       });
   },
   "onDebugRand": function() {
