@@ -42,6 +42,7 @@ function connectBot() {
  */
 function scheduleStatusChange() {
   const newStatus = config.playing[Math.floor(Math.random() * config.playing.length)];
+
   changeStatus(newStatus);
   setTimeout(scheduleStatusChange, statusChangeTime);
 }
