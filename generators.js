@@ -1,18 +1,19 @@
 const googleImages = require('google-images');
 const request = require('request-promise');
 
+function randInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 module.exports = {
-  "onDebugRunFunc": _ => { return Promise.resolve(9+9); },
   "findCatPic": _ => {
     const cse_id = "007659116903720282115:lxppsh-kie8";
     const api_id = "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE";
+    const max_pages = 50;
     let client = googleImages(cse_id, api_id);
-    return client.search('cat')
+    return client.search('cat', { page: randInt(max_pages) })
       .then((images) => {
-        var index = Math.floor(Math.random() * images.length);
-        return Promise.resolve(
-          `DEBUG: I generated a ${index} with ${images.length} results\n ${images[index].url}`
-        );
+        return Promise.resolve(images[randInt(images.length)].url);
       });
   },
   "doCatReaction": _ => {
@@ -26,9 +27,5 @@ module.exports = {
       .catch((err) => {
         return Promise.resolve(`ERROR! ${err}`);
       });
-  },
-  "onDebugRand": function() {
-    const len = 10;
-    return Promise.resolve(Math.random());
   }
 };
