@@ -1,4 +1,5 @@
 const googleImages = require('google-images');
+//const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 
 function randInt(max) {
@@ -27,5 +28,8 @@ module.exports = {
       .catch((err) => {
         return Promise.resolve(`ERROR! ${err}`);
       });
+  },
+  "doCatVideo": _ => {
+    return null; // stubbed
   }
 };
