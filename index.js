@@ -15,6 +15,11 @@ bot.on('ready', _ => {
   console.log(`${bot.username}(${bot.id}) is ready, myan!`);
 });
 
+bot.on('disconnected', _ => {
+  console.log("Disconnected from Discord. Reconnecting...");
+  connectBot();
+});
+
 bot.on('message', (user, userId, channelId, message, event) => {
   message = message.toLowerCase()
   if (message.indexOf(bot.id) !== -1) message = "@catbot";
