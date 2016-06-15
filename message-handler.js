@@ -7,6 +7,15 @@ function stringRespond(str) {
   return Promise.resolve(str);
 }
 
+/*
+ * Picks a string at random from a string array 
+ * and returns a Promise of it.
+ */
+function multiStringRespond(arr) {
+  const randIndex = Math.floor(Math.random() * arr.length);
+  return stringRespond(arr[randIndex]);
+}
+
 module.exports = {
   "@catbot": _ => { return stringRespond(`_The cat completely ignores you._`) },
   "fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
