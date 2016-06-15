@@ -17,7 +17,19 @@ function multiStringRespond(arr) {
 }
 
 module.exports = {
-  "@catbot": _ => { return stringRespond(`_The cat completely ignores you._`) },
+  "@catbot": _ => { return multiStringRespond([
+    `_The cat completely ignores you._`,
+    `_The cat glares at you._`,
+    `_The cat turns its head up at you._`,
+    `_The cat clicks its tongue._`,
+    `_The cat rifles through your wallet._`,
+    `_The cat looks away from you._`,
+    `_The cat nudges you away with its head._`,
+    `_The cat plops down on your keyboard. That'll show you._`,
+    `_The cat's ears perk up._`,
+    `_Upon hearing its name, the cat goes completely numb._`,
+    `_The cat silently rejects you._`
+  ])},
   "fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
   "good ket": _ => { return stringRespond(`=´∇｀=`) },
   "bad ket": _ => { return stringRespond(`=｀ェ´=`) },
