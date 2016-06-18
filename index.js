@@ -26,7 +26,7 @@ bot.on('message', (user, userId, channelId, message, event) => {
   
   handle = handler[message];
   if (!handle)
-    handle = handler["__i_fuzzyMatch"];
+    handle = handler["__i_fuzzyMatch"](message);
   if (!handle) return; 
   handle.call().then((response) => {
     bot.sendMessage({
