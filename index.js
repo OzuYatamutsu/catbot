@@ -21,10 +21,14 @@ bot.on('disconnected', _ => {
 });
 
 bot.on('message', (user, userId, channelId, message, event) => {
+  var handle = null;
   message = message.toLowerCase()
-  if (message.indexOf(bot.id) !== -1) message = "@catbot";
-  if (!handler[message]) return;
-  handler[message].call().then((response) => {
+  
+  handle = handler[message];
+  if (!handle)
+    handle = handler["__i_fuzzyMatch"];
+  if (!handle) return; 
+  handle.call().then((response) => {
     bot.sendMessage({
       to: channelId,
       message: response
