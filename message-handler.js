@@ -1,4 +1,10 @@
 const generators = require('./generators');
+const specialUserTable = [
+  104382466436907008, // Jinhai
+  108540178292850688, // Dest
+  111541372099551232, // Yui
+  108652166176088064  // Akashi
+];
 
 /*
  * Returns a Promise with a static string response.
