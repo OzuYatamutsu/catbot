@@ -101,8 +101,10 @@ function userMatchOnMention(userId, message) {
     ],
     /* Soar */ "109413878584086528": [
       `_The cat hisses at Soar, to try to assert dominance over the cat competition._`
+    ],
+    /* Ghost */ "108673914204323840": [
+      `_The cat looks at you and attempts to merf, but it failed._`
     ]
-    
   };
 
   if (!responseTable[userId]) return;
