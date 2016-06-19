@@ -96,6 +96,8 @@ module.exports = {
     + "~Jinhai =^_^="
     + "```"
     + "\n"
-    + "(Reactions are sourced from https://steakscorp.org/expressions.png/)");
+    + "(Reactions are sourced from https://steakscorp.org/expressions.png/)"
+    + "\n"
+    + "**...and more! Talk to your ket! =´∇｀=**");
   }
 };
