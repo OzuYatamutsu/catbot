@@ -16,20 +16,43 @@ function multiStringRespond(arr) {
   return stringRespond(arr[randIndex]);
 }
 
+/*
+ * Returns a Promise if the given string matches a token 
+ * in the list. Matches as greedily as possible.
+ */
+function fuzzyMatch(str) {
+  const table = {
+    "@catbot": _ => { return multiStringRespond([
+      `_The cat completely ignores you._`,
+      `_The cat glares at you._`,
+      `_The cat turns its head up at you._`,
+      `_The cat clicks its tongue._`,
+      `_The cat rifles through your wallet._`,
+      `_The cat looks away from you._`,
+      `_The cat nudges you away with its head._`,
+      `_The cat plops down on your keyboard. That'll show you._`,
+      `_The cat's ears perk up._`,
+      `_Upon hearing its name, the cat goes completely numb._`,
+      `_The cat silently rejects you._`
+    ])},
+    "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); }
+  };
+
+  const sortedKeys = Object.keys(table).sort((a, b) => {
+    if (a.length < b.length) return 1;
+    else if (a.length > b.length) return -1;
+    return 0;
+  });
+
+  for (var key of sortedKeys) {
+    if (str.indexOf(key) !== -1) return table[key];
+  }
+
+  return null;  
+}
+
 module.exports = {
-  "@catbot": _ => { return multiStringRespond([
-    `_The cat completely ignores you._`,
-    `_The cat glares at you._`,
-    `_The cat turns its head up at you._`,
-    `_The cat clicks its tongue._`,
-    `_The cat rifles through your wallet._`,
-    `_The cat looks away from you._`,
-    `_The cat nudges you away with its head._`,
-    `_The cat plops down on your keyboard. That'll show you._`,
-    `_The cat's ears perk up._`,
-    `_Upon hearing its name, the cat goes completely numb._`,
-    `_The cat silently rejects you._`
-  ])},
+  "__i_fuzzyMatch": fuzzyMatch,
   "fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
   "good ket": _ => { return stringRespond(`=´∇｀=`) },
   "bad ket": _ => { return stringRespond(`=｀ェ´=`) },
