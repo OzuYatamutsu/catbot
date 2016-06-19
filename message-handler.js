@@ -92,8 +92,13 @@ function userMatchOnMention(userId, message) {
       `_The cat tries to sneak up and bite Yui!_`
     ],
     /* Akashi */ "108652166176088064": [
-      `_The cat clicks its tongue and gestures towards some controllers. He wants to settle it in Smash!`
+      `_The cat clicks its tongue and gestures towards some controllers. He wants to settle it in Smash!`,
+      `**MOW** =ｘェｘ= \n _The cat could **really** use a large popcorn right about now._`
     ],
+    /* Soar */ "109413878584086528": [
+      `_The cat hisses at Soar, to try to assert dominance over the cat competition._`
+    ]
+    
   };
 
   if (!responseTable[userId]) return;
