@@ -4,7 +4,7 @@
   "description": "Cat-related Discord bot for great good. ",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/babel-node --presets es2015 ./index.js 2>&1 | tee ./catbot.log"
+    "start": "./node_modules/.bin/babel-node --presets es2015 ./index.js 2>&1 | tee -a ./catbot.log"
   },
   "repository": {
     "type": "git",
