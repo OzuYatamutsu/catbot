@@ -35,16 +35,17 @@ function fuzzyMatch(str) {
       `_Upon hearing its name, the cat goes completely numb._`,
       `_The cat silently rejects you._`
     ])},
+    "pets @catbot": _ => { return stringRespond(`thank b0ss`); }
   };
 
   const sortedKeys = Object.keys(table).sort((a, b) => {
-    if (a.length > b.length) return 1;
-    else if (a.length < b.length) return -1;
+    if (a.length < b.length) return 1;
+    else if (a.length > b.length) return -1;
     return 0;
   });
-  
+
   for (var key of sortedKeys) {
-    if (key.indexOf(str) !== -1) return table[key];
+    if (str.indexOf(key) !== -1) return table[key];
   }
 
   return null;  
