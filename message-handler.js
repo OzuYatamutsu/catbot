@@ -35,7 +35,7 @@ function fuzzyMatch(str) {
       `_Upon hearing its name, the cat goes completely numb._`,
       `_The cat silently rejects you._`
     ])},
-    "pets @catbot": _ => { return stringRespond(`thank b0ss`); }
+    "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); }
   };
 
   const sortedKeys = Object.keys(table).sort((a, b) => {
