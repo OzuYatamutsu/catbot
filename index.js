@@ -20,13 +20,20 @@ bot.on('disconnected', _ => {
   connectBot();
 });
 
+/*
+ * Constructs a response with the following precedence:
+ * 
+ * Exact matches
+ * @catbot mentions for special user IDs
+ * Fuzzy matches
+ */
 bot.on('message', (user, userId, channelId, message, event) => {
   var handle = null;
   message = message.toLowerCase()
     .replace(`<@${bot.id}>`, `@catbot`);
   handle = handler[message];
-  if (!handle)
-    handle = handler["__i_fuzzyMatch"](message);
+  if (!handle) handle = handler["__i_userMatchOnMention"](userId, message);
+  if (!handle) handle = handler["__i_fuzzyMatch"](message);
   if (!handle) return; 
   handle.call().then((response) => {
     bot.sendMessage({
