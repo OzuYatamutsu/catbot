@@ -1,4 +1,6 @@
 const generators = require('./generators');
+const specialUserTimeout = 30000; // ms
+var ignoreSpecialUserTable = [];
 
 /*
  * Returns a Promise with a static string response.
@@ -51,8 +53,48 @@ function fuzzyMatch(str) {
   return null;  
 }
 
+/*
+ * Defines special custom responses for special user IDs 
+ * on a @catbot raw mention.
+ */
+function userMatchOnMention(userId, message) {
+  const responseTable = {
+    /* Jinhai */ "104382466436907008": [
+      `hi b0ss =・ω・=`,
+      `yiss b0ss ? =①ω①=`
+    ],
+    /* Dest */ "108540178292850688": [
+      `**HALLOU, ** =ΦωΦ=`
+    ],
+    /* Yui */ "111541372099551232": [
+      `**MOW ?** =ㅇㅅㅇ=`,
+      `**rrrrRRRR**rrrr...`,
+      `_The cat tries to sneak up and bite Yui!_`
+    ],
+    /* Akashi */ "108652166176088064": [
+      `_The cat clicks its tongue and gestures towards some controllers. He wants to settle it in Smash!`
+    ],
+  };
+
+  if (!responseTable[userId]) return;
+  else if (message.indexOf(`@catbot`) === -1) return;
+  else if (ignoreSpecialUserTable.indexOf(userId) !== -1) return;
+  const response = responseTable[userId][Math.floor(Math.random() * responseTable[userId].length)];
+  console.log(`Triggering special response for ${userId}: ${response}`);
+
+  // Timeout on special responses
+  ignoreSpecialUserTable.push(userId);
+  setTimeout(_ => {
+    const userId = ignoreSpecialUserTable.shift();
+    console.log(`Removed ${userId} from ignore table`);
+  }, specialUserTimeout);
+ 
+  return _ => { return stringRespond(response) };
+}
+
 module.exports = {
   "__i_fuzzyMatch": fuzzyMatch,
+  "__i_userMatchOnMention": userMatchOnMention,
   "fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
   "good ket": _ => { return stringRespond(`=´∇｀=`) },
   "bad ket": _ => { return stringRespond(`=｀ェ´=`) },
