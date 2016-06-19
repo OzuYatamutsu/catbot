@@ -34,6 +34,9 @@ bot.on('message', (user, userId, channelId, message, event) => {
       message: response
     });
   });
+
+  // Log out catbot mentions
+  console.log(`[mention] ${user} (${userId}): ${message}`);
 });
 
 /*
