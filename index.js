@@ -23,7 +23,7 @@ bot.on('disconnected', _ => {
 bot.on('message', (user, userId, channelId, message, event) => {
   var handle = null;
   message = message.toLowerCase()
-  
+    .replace(`<@${bot.id}>`, `@catbot`);
   handle = handler[message];
   if (!handle)
     handle = handler["__i_fuzzyMatch"](message);
