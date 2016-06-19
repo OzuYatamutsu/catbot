@@ -85,5 +85,17 @@ module.exports = {
   },
   "doCatVideo":  _ => {
     return null; // stubbed
+  },
+  "doHelp": _ => {
+    return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
+    + "```\n"
+    + "!catbot catpic - Returns a random cat picture.\n"
+    + "!catbot catreaction - Returns a random cat reaction.\n"
+    + "!catbot reaction <search> - Searches for the closest reaction called <search>.\n"
+    + "\n"
+    + "~Jinhai =^_^="
+    + "```"
+    + "\n"
+    + "(Reactions are sourced from https://steakscorp.org/expressions.png/)");
   }
 };

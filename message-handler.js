@@ -27,7 +27,8 @@ function command(str) {
     "!catbot catpic": generators.findCatPic,
     "!catbot catreaction": generators.doCatReaction,
     "!catbot catvideo": generators.doCatVideo,
-    "!catbot reaction": generators.doReaction
+    "!catbot reaction": generators.doReaction,
+    "!catbot help": generators.doHelp
   };
 
   for (var directive of Object.keys(table)) {
@@ -57,7 +58,8 @@ function fuzzyMatch(str) {
       `_Upon hearing its name, the cat goes completely numb._`,
       `_The cat silently rejects you._`
     ])},
-    "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); }
+    "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
+    "@catbot help": generators.doHelp
   };
 
   const sortedKeys = Object.keys(table).sort((a, b) => {
@@ -78,6 +80,8 @@ function fuzzyMatch(str) {
  * on a @catbot raw mention.
  */
 function userMatchOnMention(userId, message) {
+  // ...but ignore on @catbot help
+  if (message.indexOf(`@catbot help`) === 0) return;
   const responseTable = {
     /* Jinhai */ "104382466436907008": [
       `hi b0ss =・ω・=`,
