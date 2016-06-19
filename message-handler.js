@@ -19,6 +19,26 @@ function multiStringRespond(arr) {
 }
 
 /*
+ * Returns a Promise based on a given !catbot directive.
+ */
+function command(str) { 
+  const table = {
+    "!catbot pet": _ => { return stringRespond(`=´ω｀=`); },
+    "!catbot catpic": generators.findCatPic,
+    "!catbot catreaction": generators.doCatReaction,
+    "!catbot catvideo": generators.doCatVideo,
+    "!catbot reaction": generators.doReaction
+  };
+
+  for (var directive of Object.keys(table)) {
+    if (str.indexOf(directive) !== 0) continue;
+    return table[directive];
+  }
+
+  return null;
+}
+
+/*
  * Returns a Promise if the given string matches a token 
  * in the list. Matches as greedily as possible.
  */
@@ -95,15 +115,12 @@ function userMatchOnMention(userId, message) {
 module.exports = {
   "__i_fuzzyMatch": fuzzyMatch,
   "__i_userMatchOnMention": userMatchOnMention,
+  "__i_command": command,
   "fresh steak": _ => { return stringRespond(`steak here =｀ω´=`) },
   "good ket": _ => { return stringRespond(`=´∇｀=`) },
   "bad ket": _ => { return stringRespond(`=｀ェ´=`) },
   "catbot you need to go to bed myan": _ => { return stringRespond(`Time for sleeps =-w-= \n http://www.ohgizmo.com/wp-content/uploads/2014/03/Cat-Burger-Pillow.jpg`) },
   "ping": _ => { return stringRespond(`pong`) },
   "pets catbot": _ => { return stringRespond(`=´ω｀=`); },
-  "*pets catbot*": _ => { return stringRespond(`=´ω｀=`); }, 
-  "!catbot pet": _ => { return stringRespond(`=´ω｀=`); },
-  "!catbot catpic": generators.findCatPic,
-  "!catbot reaction": generators.doCatReaction,
-  "!catbot catvideo": generators.doCatVideo
+  "*pets catbot*": _ => { return stringRespond(`=´ω｀=`); }
 };
