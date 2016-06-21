@@ -117,6 +117,10 @@ function userMatchOnMention(userId, message) {
     ],
     /* Ghost */ "108673914204323840": [
       `_The cat looks at you and attempts to merf, but it failed._`
+    ],
+    /* Jinko  */ "108595114540056576": [
+      `_The cat paws up at the rock._`,
+      `_The cat sharpens his claws on Jinko._`
     ]
   };
 
