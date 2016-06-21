@@ -56,7 +56,20 @@ function fuzzyMatch(str) {
       `_The cat plops down on your keyboard. That'll show you._`,
       `_The cat's ears perk up._`,
       `_Upon hearing its name, the cat goes completely numb._`,
-      `_The cat silently rejects you._`
+      `_The cat silently rejects you._`,
+      `Mroo? ='w'=`,
+      `Myon? ='w'=`,
+      `MyEH ，hEH =｀ω´=`,
+      `_The cat looks up at you and mouths something vulgar._`,
+      `_The cat just wants to be loved._`,
+      `Myerp! =owo=`,
+      `Myoo!! =①ω①=`,
+      `Nyeh! =●⋏●=`,
+      `NYEHEHEH! ლ(●ↀωↀ●)ლ`,
+      `_The cat meows at you._`,
+      `_The cat begins catting immediately._`,
+      `_Upon being noticed, the cat challenges you to a staring match._`
+      `https://www.youtube.com/watch?v=IuysY1BekOE`
     ])},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
     "@catbot help": generators.doHelp
