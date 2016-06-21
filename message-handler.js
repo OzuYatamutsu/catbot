@@ -73,7 +73,7 @@ function fuzzyMatch(str) {
       `_The cat chitters at you._`,
       `_The cat myerps at you._`,
       `_The cat suffers a segfault and crashes. Rebooting..._`,
-      `_The cat starts sharpening its claws on the carpet._,
+      `_The cat starts sharpening its claws on the carpet._`,
       `_The cat wants a pet._`,
       `Pets please!! =^_^=`,
       `=^w^=`
