@@ -68,7 +68,7 @@ function fuzzyMatch(str) {
       `NYEHEHEH! ლ(●ↀωↀ●)ლ`,
       `_The cat meows at you._`,
       `_The cat begins catting immediately._`,
-      `_Upon being noticed, the cat challenges you to a staring match._`
+      `_Upon being noticed, the cat challenges you to a staring match._`,
       `https://www.youtube.com/watch?v=IuysY1BekOE`
     ])},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
