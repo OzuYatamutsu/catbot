@@ -69,7 +69,14 @@ function fuzzyMatch(str) {
       `_The cat meows at you._`,
       `_The cat begins catting immediately._`,
       `_Upon being noticed, the cat challenges you to a staring match._`,
-      `https://www.youtube.com/watch?v=IuysY1BekOE`
+      `https://www.youtube.com/watch?v=IuysY1BekOE`,
+      `_The cat chitters at you._`,
+      `_The cat myerps at you._`,
+      `_The cat suffers a segfault and crashes. Rebooting..._`,
+      `_The cat starts sharpening its claws on the carpet._,
+      `_The cat wants a pet._`,
+      `Pets please!! =^_^=`,
+      `=^w^=`
     ])},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
     "@catbot help": generators.doHelp
