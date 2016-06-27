@@ -132,7 +132,10 @@ function userMatchOnMention(userId, message) {
       `_The cat sharpens his claws on Jinko._`
     ],
     /* Ashkor */ "108656606182375424": [
-      `_The cat sneaks behind your defenses and upgrades your RAM._`,
+      `_The cat sneaks behind your defenses and upgrades your RAM._`
+    ],
+    /* Keizu */ "125637758520655872": [
+      `_The cat brings you a spider. The spider bites you._`
     ]
   };
 
