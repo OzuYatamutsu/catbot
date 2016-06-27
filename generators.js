@@ -1,6 +1,8 @@
+const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
 //const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
+const wolfram = require('wolfram-alpha').createClient('5Y398Q-JU8LR2EY68');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -85,6 +87,13 @@ module.exports = {
   },
   "doCatVideo":  _ => {
     return null; // stubbed
+  },
+  "doWolframAlpha": (args) => {
+    let search = args.message.split("!catbot alpha")[1].trim();
+    return bluebird.promisify(wolfram.query(search))
+      .then((result) => {
+        return Promise.resolve(result[0].subpods[0].text);
+      });
   },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
