@@ -90,7 +90,8 @@ module.exports = {
   },
   "doWolframAlpha": (args) => {
     let search = args.message.split("!catbot alpha")[1].trim();
-    return bluebird.promisify(wolfram.query(search))
+    let queryFunction = bluebird.promisify(wolfram.query);
+    return queryFunction(search)
       .then((result) => {
         return Promise.resolve(result[0].subpods[0].text);
       });
