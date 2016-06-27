@@ -76,7 +76,8 @@ function fuzzyMatch(str) {
       `_The cat starts sharpening its claws on the carpet._`,
       `_The cat wants a pet._`,
       `Pets please!! =^_^=`,
-      `=^w^=`
+      `=^w^=`,
+      `_The cat begins to dedotate more WAM to process bein' poked._`
     ])},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
     "@catbot help": generators.doHelp
