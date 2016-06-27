@@ -2,7 +2,7 @@ const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
 //const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
-const wolfram = require('wolfram-alpha').createClient('5Y398Q-JU8LR2EY68');
+const wolfram = require('wolfram').createClient('5Y398Q-JU8LR2EY68');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
