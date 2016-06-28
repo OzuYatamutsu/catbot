@@ -2,7 +2,7 @@ const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
 //const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
-const wolfram = require('wolfram').createClient('5Y398Q-JU8LR2EY68');
+const wolfram = require('wolfram');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -89,11 +89,32 @@ module.exports = {
     return null; // stubbed
   },
   "doWolframAlpha": (args) => {
+    let client = wolfram.createClient('5Y398Q-JU8LR2EY68');
     let search = args.message.split("!catbot alpha")[1].trim();
-    let queryFunction = bluebird.promisify(wolfram.query);
+    let queryFunction = bluebird.promisify(client.query, {context: client});
     return queryFunction(search)
       .then((result) => {
-        return Promise.resolve(result[0].subpods[0].text);
+        var returnMsg = "";
+        for (let pod of result) {
+          if (!!pod.subpods) {
+            if (pod.primary)
+              returnMsg += `**${pod.subpods[0].value}**`;
+            //else
+            //  returnMsg += `* ${pod.subpods[0].value}\n\n`;
+          }
+        }
+        // console.log(JSON.stringify(result));
+        if (returnMsg.length === 0) {
+          for (let pod of result) {
+            if (!!pod.subpods && pod.primary) {
+              returnMsg = pod.subpods[0].image;
+            }
+          }
+        }
+        if (returnMsg.length === 0 && !!result[1].subpods) returnMsg = result[1].subpods[0].image; 
+        if (returnMsg.length === 0) returnMsg = `¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`;
+        return Promise.resolve(returnMsg);
+        //return Promise.resolve(JSON.stringify(result)); //DEBUG
       });
   },
   "doHelp": _ => {
