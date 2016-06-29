@@ -95,17 +95,22 @@ module.exports = {
     return queryFunction(search)
       .then((result) => {
         var returnMsg = "";
+        console.log(`[wolfram] ${JSON.stringify(result)}`); // TODO debug
         // Check for primary text first
         for (let pod of result) {
-          if (!!pod.subpods && pod.primary)
+          if (!!pod.subpods && pod.primary) {
             returnMsg += `**${pod.subpods[0].value}**`;
+            break;
+          }
         }
         
         // If nothing, check for primary image
         if (returnMsg.length === 0) {
           for (let pod of result) {
-            if (!!pod.subpods && pod.primary)
+            if (!!pod.subpods && pod.primary) {
               returnMsg = pod.subpods[0].image;
+              break;
+            }
           }
         }
 
