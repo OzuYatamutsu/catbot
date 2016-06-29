@@ -89,7 +89,7 @@ module.exports = {
   "doYouTube": (args) => {
     let search = args.message.split("!catbot video")[1].trim();
     let opts = {
-      maxResults: 50,
+      maxResults: 5,
       key: config.api_keys.google_api
     };
     let searchFunction = bluebird.promisify(youtubeSearch);
@@ -153,14 +153,12 @@ module.exports = {
   },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
-    + "```\n"
-    + "!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).\n"
-    + "!catbot catpic - Returns a random cat picture.\n"
-    + "!catbot catreaction - Returns a random cat reaction.\n"
-    + "!catbot react <search> - Searches for the closest reaction called <search>.\n"
-    + "\n"
-    + "~Jinhai =^_^="
-    + "```"
+    + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
+    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    + "**-----**\n\n"
+    + "`!catbot catpic` - Returns a random cat picture.\n\n"
+    + "`!catbot catreaction` - Returns a random cat reaction.\n\n"
+    + "~Jinhai =^w^="
     + "\n"
     + "(Reactions are sourced from https://steakscorp.org/expressions.png/)"
     + "\n"
