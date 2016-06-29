@@ -99,7 +99,7 @@ module.exports = {
         // Check for primary text first
         for (let pod of result) {
           if (!!pod.subpods && pod.primary) {
-            returnMsg += `**${pod.subpods[0].value}**`;
+            returnMsg += `**${pod.subpods[0].text}**`;
             break;
           }
         }
