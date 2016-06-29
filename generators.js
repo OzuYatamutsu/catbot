@@ -1,3 +1,4 @@
+const config = require('./config'); // For API keys
 const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
 //const youtubeSearch = require('youtube-search');
@@ -32,8 +33,8 @@ function fuzzyMatchWithMangling(needle, haystack) {
 
 module.exports = {
   "findCatPic": _ => {
-    const cse_id = "007659116903720282115:lxppsh-kie8";
-    const api_id = "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE";
+    const cse_id = config.api_keys.google_image_cse;
+    const api_id = config.api_keys.google_api;
     const max_pages = 50;
     let client = googleImages(cse_id, api_id);
     return client.search('cat', { page: randInt(max_pages) })
@@ -89,7 +90,12 @@ module.exports = {
     return null; // stubbed
   },
   "doWolframAlpha": (args) => {
-    let client = wolfram.createClient('5Y398Q-JU8LR2EY68');
+    const wolfram_api_key = config.api_keys.wolfram;
+    let client = wolfram.createClient(wolfram_api_key, {
+      reinterpret: true,
+      scantimeout: 10,
+      parsetimeout: 10
+    });
     let search = args.message.split("!catbot alpha")[1].trim();
     let queryFunction = bluebird.promisify(client.query, {context: client});
     return queryFunction(search)
