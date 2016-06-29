@@ -1,6 +1,9 @@
+const config = require('./config'); // For API keys
+const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
 //const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
+const wolfram = require('wolfram-alpha');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -30,8 +33,8 @@ function fuzzyMatchWithMangling(needle, haystack) {
 
 module.exports = {
   "findCatPic": _ => {
-    const cse_id = "007659116903720282115:lxppsh-kie8";
-    const api_id = "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE";
+    const cse_id = config.api_keys.google_image_cse;
+    const api_id = config.api_keys.google_api;
     const max_pages = 50;
     let client = googleImages(cse_id, api_id);
     return client.search('cat', { page: randInt(max_pages) })
@@ -86,9 +89,63 @@ module.exports = {
   "doCatVideo":  _ => {
     return null; // stubbed
   },
+  "doWolframAlpha": (args) => {
+    const wolfram_api_key = config.api_keys.wolfram;
+    let client = wolfram.createClient(wolfram_api_key, {
+      reinterpret: true,
+      scantimeout: 10,
+      parsetimeout: 10
+    });
+    let search = args.message.split("!catbot alpha")[1].trim();
+    let queryFunction = bluebird.promisify(client.query, {context: client});
+    return queryFunction(search)
+      .then((result) => {
+        var returnMsg = "";
+        if (result.length === 0) return Promise.resolve(`¯\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`);
+
+        // console.log(`[wolfram] ${JSON.stringify(result)}`); // TODO debug
+        // Check for primary text first
+        for (let pod of result) {
+          if (!!pod.subpods && pod.primary) {
+            returnMsg += `**${pod.subpods[0].text}**`;
+            break;
+          }
+        }
+        
+        // If nothing, check for primary image
+        if (returnMsg.length === 0) {
+          for (let pod of result) {
+            if (!!pod.subpods && pod.primary) {
+              returnMsg = pod.subpods[0].image;
+              break;
+            }
+          }
+        }
+
+        // If nothing, string together texts
+        if (returnMsg.length === 0) {
+          for (let pod of result) {
+            if (!!pod.subpods)
+              returnMsg += `* ${pod.subpods[0].text}\n\n`;
+          }
+        }
+
+        // If nothing, result is usually the second image
+        if (returnMsg.length === 0) {
+          if (!!result[1].subpods)
+            returnMsg = result[1].subpods[0].image; 
+        }
+        
+        // If still nothing, no result
+        if (returnMsg.length === 0) 
+          returnMsg = `¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`;
+        return Promise.resolve(returnMsg);
+      });
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "```\n"
+    + "!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).\n"
     + "!catbot catpic - Returns a random cat picture.\n"
     + "!catbot catreaction - Returns a random cat reaction.\n"
     + "!catbot reaction <search> - Searches for the closest reaction called <search>.\n"

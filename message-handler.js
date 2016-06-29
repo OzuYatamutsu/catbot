@@ -1,5 +1,5 @@
 const generators = require('./generators');
-const specialUserTimeout = 30000; // ms
+const specialUserTimeout = 1800000; // ms (30 min)
 var ignoreSpecialUserTable = [];
 
 /*
@@ -28,6 +28,7 @@ function command(str) {
     "!catbot catreaction": generators.doCatReaction,
     "!catbot catvideo": generators.doCatVideo,
     "!catbot reaction": generators.doReaction,
+    "!catbot alpha": generators.doWolframAlpha,
     "!catbot help": generators.doHelp
   };
 
@@ -131,7 +132,10 @@ function userMatchOnMention(userId, message) {
       `_The cat sharpens his claws on Jinko._`
     ],
     /* Ashkor */ "108656606182375424": [
-      `_The cat sneaks behind your defenses and upgrades your RAM._`,
+      `_The cat sneaks behind your defenses and upgrades your RAM._`
+    ],
+    /* Keizu */ "125637758520655872": [
+      `_The cat brings you a spider. The spider bites you._`
     ]
   };
 

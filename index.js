@@ -36,7 +36,6 @@ bot.on('message', (user, userId, channelId, message, event) => {
   var handle = null;
   message = message.toLowerCase()
     .replace(`<@${bot.id}>`, `@catbot`);
-  
   handle = handler["__i_command"](message);
   if (!handle) handle = handler[message];
   if (!handle) handle = handler["__i_userMatchOnMention"](userId, message);
