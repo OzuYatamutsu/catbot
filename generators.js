@@ -95,26 +95,38 @@ module.exports = {
     return queryFunction(search)
       .then((result) => {
         var returnMsg = "";
+        // Check for primary text first
         for (let pod of result) {
-          if (!!pod.subpods) {
-            if (pod.primary)
-              returnMsg += `**${pod.subpods[0].value}**`;
-            //else
-            //  returnMsg += `* ${pod.subpods[0].value}\n\n`;
-          }
+          if (!!pod.subpods && pod.primary)
+            returnMsg += `**${pod.subpods[0].value}**`;
         }
-        // console.log(JSON.stringify(result));
+        
+        // If nothing, check for primary image
         if (returnMsg.length === 0) {
           for (let pod of result) {
-            if (!!pod.subpods && pod.primary) {
+            if (!!pod.subpods && pod.primary)
               returnMsg = pod.subpods[0].image;
-            }
           }
         }
-        if (returnMsg.length === 0 && !!result[1].subpods) returnMsg = result[1].subpods[0].image; 
-        if (returnMsg.length === 0) returnMsg = `¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`;
+
+        // If nothing, string together texts
+        if (returnMsg.length === 0) {
+          for (let pod of result) {
+            if (!!pod.subpods)
+              returnMsg += pod.subpods[0].text;
+          }
+        }
+
+        // If nothing, result is usually the second image
+        if (returnMsg.length === 0) {
+          if (!!result[1].subpods)
+            returnMsg = result[1].subpods[0].image; 
+        }
+        
+        // If still nothing, no result
+        if (returnMsg.length === 0) 
+          returnMsg = `¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`;
         return Promise.resolve(returnMsg);
-        //return Promise.resolve(JSON.stringify(result)); //DEBUG
       });
   },
   "doHelp": _ => {
