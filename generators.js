@@ -95,6 +95,8 @@ module.exports = {
     return queryFunction(search)
       .then((result) => {
         var returnMsg = "";
+        if (result.length === 0) return Promise.resolve(`¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`);
+
         //console.log(`[wolfram] ${JSON.stringify(result)}`); // TODO debug
         // Check for primary text first
         for (let pod of result) {
