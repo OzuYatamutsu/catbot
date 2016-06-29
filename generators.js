@@ -55,7 +55,7 @@ module.exports = {
       });
   },
   "doReaction": (args) => {
-    let search = args.message.split("!catbot reaction")[1].trim();
+    let search = args.message.split("!catbot react")[1].trim();
     if (search.length === 0) search = "cat";
     return request("http://steakscorp.org/other/expression-machine.php")
       .then((body) => {
@@ -148,7 +148,7 @@ module.exports = {
     + "!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).\n"
     + "!catbot catpic - Returns a random cat picture.\n"
     + "!catbot catreaction - Returns a random cat reaction.\n"
-    + "!catbot reaction <search> - Searches for the closest reaction called <search>.\n"
+    + "!catbot react <search> - Searches for the closest reaction called <search>.\n"
     + "\n"
     + "~Jinhai =^_^="
     + "```"

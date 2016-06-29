@@ -27,7 +27,7 @@ function command(str) {
     "!catbot catpic": generators.findCatPic,
     "!catbot catreaction": generators.doCatReaction,
     "!catbot catvideo": generators.doCatVideo,
-    "!catbot reaction": generators.doReaction,
+    "!catbot react": generators.doReaction,
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot help": generators.doHelp
   };
