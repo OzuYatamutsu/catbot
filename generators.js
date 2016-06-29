@@ -95,7 +95,7 @@ module.exports = {
     return queryFunction(search)
       .then((result) => {
         var returnMsg = "";
-        console.log(`[wolfram] ${JSON.stringify(result)}`); // TODO debug
+        //console.log(`[wolfram] ${JSON.stringify(result)}`); // TODO debug
         // Check for primary text first
         for (let pod of result) {
           if (!!pod.subpods && pod.primary) {
@@ -137,6 +137,7 @@ module.exports = {
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "```\n"
+    + "!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).\n"
     + "!catbot catpic - Returns a random cat picture.\n"
     + "!catbot catreaction - Returns a random cat reaction.\n"
     + "!catbot reaction <search> - Searches for the closest reaction called <search>.\n"
