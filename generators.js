@@ -113,7 +113,7 @@ module.exports = {
         if (returnMsg.length === 0) {
           for (let pod of result) {
             if (!!pod.subpods)
-              returnMsg += pod.subpods[0].text;
+              returnMsg += `* ${pod.subpods[0].text}\n\n`;
           }
         }
 
