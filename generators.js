@@ -1,7 +1,7 @@
 const config = require('./config'); // For API keys
 const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
-//const youtubeSearch = require('youtube-search');
+const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 const wolfram = require('wolfram-alpha');
 
@@ -86,8 +86,17 @@ module.exports = {
         return Promise.resolve(`ERROR! ${err}`);
       });
   },
-  "doCatVideo":  _ => {
-    return null; // stubbed
+  "doYouTube": (args) => {
+    let search = args.message.split("!catbot video")[1].trim();
+    let opts = {
+      maxResults: 50,
+      key: config.api_keys.google_api
+    };
+    let searchFunction = bluebird.promisify(youtubeSearch);
+    return searchFunction(search, opts)
+      .then((result) => {
+        return Promise.resolve(JSON.stringify(result));
+      });
   },
   "doWolframAlpha": (args) => {
     const wolfram_api_key = config.api_keys.wolfram;
