@@ -97,8 +97,15 @@ module.exports = {
     
     return searchFunction(search, opts)
       .then((result) => {
-        if (!!result[0].link && result[0].link !== undefinedVideo) 
-          return Promise.resolve(result[0].link);
+        let index = 0;
+        while (index > result.length 
+              || !result[index] 
+              || result[index].link === undefinedVideo
+              || result[index].link.indexOf("/channel/") !== -1
+        ) {
+          index++;
+        }
+        if (index !== result.length) return Promise.resolve(result[index].link);
         else return Promise.resolve(`Couldn't find da V I D E O  b0ss =ಠ_ಥ=`);
       });
   },
@@ -138,7 +145,7 @@ module.exports = {
         // If nothing, string together texts
         if (returnMsg.length === 0) {
           for (let pod of result) {
-            if (!!pod.subpods)
+            if (!!pod.subpods && pod.subpods[0].text.trim().length > 0)
               returnMsg += `* ${pod.subpods[0].text}\n\n`;
           }
         }
