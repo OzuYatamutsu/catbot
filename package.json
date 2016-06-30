@@ -21,6 +21,7 @@
     "babel-preset-es2015": "^6.0.0",
     "google-images": "*",
     "request-promise": "*",
-    "wolfram-alpha": "*"
+    "wolfram-alpha": "*",
+    "youtube-search": "*"
   }
 }

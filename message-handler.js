@@ -26,7 +26,7 @@ function command(str) {
     "!catbot pet": _ => { return stringRespond(`=´ω｀=`); },
     "!catbot catpic": generators.findCatPic,
     "!catbot catreaction": generators.doCatReaction,
-    "!catbot catvideo": generators.doCatVideo,
+    "!catbot video": generators.doYouTube,
     "!catbot react": generators.doReaction,
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot help": generators.doHelp

@@ -1,7 +1,7 @@
 const config = require('./config'); // For API keys
 const bluebird = require('bluebird'); // Promisify node callback APIs
 const googleImages = require('google-images');
-//const youtubeSearch = require('youtube-search');
+const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 const wolfram = require('wolfram-alpha');
 
@@ -86,8 +86,21 @@ module.exports = {
         return Promise.resolve(`ERROR! ${err}`);
       });
   },
-  "doCatVideo":  _ => {
-    return null; // stubbed
+  "doYouTube": (args) => {
+    const undefinedVideo = "https://www.youtube.com/watch?v=undefined";
+    let search = args.message.split("!catbot video")[1].trim();
+    let opts = {
+      maxResults: 5,
+      key: config.api_keys.google_api
+    };
+    let searchFunction = bluebird.promisify(youtubeSearch);
+    
+    return searchFunction(search, opts)
+      .then((result) => {
+        if (!!result[0].link && result[0].link !== undefinedVideo) 
+          return Promise.resolve(result[0].link);
+        else return Promise.resolve(`Couldn't find da V I D E O  b0ss =ಠ_ಥ=`);
+      });
   },
   "doWolframAlpha": (args) => {
     const wolfram_api_key = config.api_keys.wolfram;
@@ -144,14 +157,13 @@ module.exports = {
   },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
-    + "```\n"
-    + "!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).\n"
-    + "!catbot catpic - Returns a random cat picture.\n"
-    + "!catbot catreaction - Returns a random cat reaction.\n"
-    + "!catbot react <search> - Searches for the closest reaction called <search>.\n"
-    + "\n"
-    + "~Jinhai =^_^="
-    + "```"
+    + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
+    + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
+    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    + "**-----**\n\n"
+    + "`!catbot catpic` - Returns a random cat picture.\n\n"
+    + "`!catbot catreaction` - Returns a random cat reaction.\n\n"
+    + "~Jinhai =^w^="
     + "\n"
     + "(Reactions are sourced from https://steakscorp.org/expressions.png/)"
     + "\n"
