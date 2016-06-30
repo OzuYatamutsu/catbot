@@ -87,15 +87,19 @@ module.exports = {
       });
   },
   "doYouTube": (args) => {
+    const undefinedVideo = "https://www.youtube.com/watch?v=undefined";
     let search = args.message.split("!catbot video")[1].trim();
     let opts = {
       maxResults: 5,
       key: config.api_keys.google_api
     };
     let searchFunction = bluebird.promisify(youtubeSearch);
+    
     return searchFunction(search, opts)
       .then((result) => {
-        return Promise.resolve(JSON.stringify(result));
+        if (!!result[0].link && result[0].link !== undefinedVideo) 
+          return Promise.resolve(result[0].link);
+        else return Promise.resolve(`Couldn't find da V I D E O  b0ss =ಠ_ಥ=`);
       });
   },
   "doWolframAlpha": (args) => {
@@ -154,6 +158,7 @@ module.exports = {
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
+    + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
     + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
     + "**-----**\n\n"
     + "`!catbot catpic` - Returns a random cat picture.\n\n"
