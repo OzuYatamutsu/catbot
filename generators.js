@@ -162,6 +162,24 @@ module.exports = {
         return Promise.resolve(returnMsg);
       });
   },
+  "doImageIdentify": (args) => {
+    let search = args.message.split("!catbot identify")[1].trim();
+    let uri = "https://www.imageidentify.com/objects/user-26a7681f-4b48-4f71-8f9f-93030898d70d/prd/urlapi";
+    let options = {
+      method: "POST",
+      uri,
+      body: {
+        image: search
+      },
+      json: true
+    };
+    
+    return request(options)
+      .then((body) => {
+        // TODO
+        return Promise.resolve(JSON.stringify(body));
+      });
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
