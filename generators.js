@@ -32,14 +32,15 @@ function fuzzyMatchWithMangling(needle, haystack) {
 }
 
 module.exports = {
-  "findCatPic": _ => {
+  "doGoogleImage": (args) => {
+    let search = args.message.split("!catbot img")[1].trim();
     const cse_id = config.api_keys.google_image_cse;
     const api_id = config.api_keys.google_api;
     const max_pages = 50;
     let client = googleImages(cse_id, api_id);
-    return client.search('cat', { page: randInt(max_pages) })
+    return client.search(search)
       .then((images) => {
-        return Promise.resolve(images[randInt(images.length)].url);
+        return Promise.resolve(images[0].url);
       });
   },
   "doCatReaction": _ => {
@@ -162,28 +163,13 @@ module.exports = {
         return Promise.resolve(returnMsg);
       });
   },
-  "doImageIdentify": (args) => {
-    let search = args.message.split("!catbot identify")[1].trim();
-    let uri = `https://www.imageidentify.com/objects/user-26a7681f-4b48-4f71-8f9f-93030898d70d/prd/urlapi?image=${search}`;
-    let options = {
-      uri,
-      json: true
-    };
-    
-    return request(options)
-      .then((body) => {
-        if (!body.identify || !body.identify.title) return Promise.resolve(`arr, dun knｏｗ　ｗｔｆ　ｉｓ　ｔｈａｔ　ｓｏｎ =｀ェ´=`);
-        return Promise.resolve(`That looks like **${body.identify.title}** to me, myan!`);
-      });
-  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
     + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
-    + "`!catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
     + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    + "`!catbot img <search>` - Finds `<search>` on Google Images.\n\n"
     + "**-----**\n\n"
-    + "`!catbot catpic` - Returns a random cat picture.\n\n"
     + "`!catbot catreaction` - Returns a random cat reaction.\n\n"
     + "~Jinhai =^w^="
     + "\n"
