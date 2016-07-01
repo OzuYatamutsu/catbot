@@ -30,6 +30,7 @@ function command(str) {
     "!catbot react": generators.doReaction,
     "!catbot identify": generators.doImageIdentify,
     "!catbot alpha": generators.doWolframAlpha,
+    "!catbot catfact": generators.doCaas,
     "!catbot help": generators.doHelp
   };
 

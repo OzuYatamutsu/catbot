@@ -177,6 +177,18 @@ module.exports = {
         return Promise.resolve(`That looks like **${body.identify.title}** to me, myan!`);
       });
   },
+  "doCaas": _ => {
+    let uri = "http://caas.steakscorp.org/api/?intro=yes";
+    let options = {
+      uri,
+      json: true
+    };
+
+    return request(options)
+      .then((body) => {
+        return Promise.resolve(body.text);
+      });
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
@@ -185,6 +197,7 @@ module.exports = {
     + "`!catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
     + "`!catbot img <search>` - Finds `<search>` on Google Images.\n\n"
     + "**-----**\n\n"
+    + "`!catbot catfact` - Returns a random catfact.\n\n"
     + "`!catbot catreaction` - Returns a random cat reaction.\n\n"
     + "~Jinhai =^w^="
     + "\n"
