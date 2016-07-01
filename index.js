@@ -29,6 +29,7 @@ bot.on('disconnected', _ => {
  * Fuzzy matches
  */
 bot.on('message', (user, userId, channelId, message, event) => {
+  let channels = channelsInServer(channelId);
   var handle = null;
   message = message.toLowerCase()
     .replace(`<@${bot.id}>`, `@catbot`);
@@ -38,7 +39,7 @@ bot.on('message', (user, userId, channelId, message, event) => {
   if (!handle) handle = handler["__i_fuzzyMatch"](message);
   if (!handle) return; 
   
-  handle({user, userId, channelId, message}).then((response) => {
+  handle({user, userId, channelId, message, channels}).then((response) => {
     bot.sendMessage({
       to: channelId,
       message: response
@@ -84,4 +85,16 @@ function changeName(newName) {
   console.log(`Changing name to: ${newName}`);
   bot.editUserInfo({username: newName});
   bot.username = newName;
+}
+
+/*
+ * Given a channelId, returns a list of other channels on the server.
+ */
+function channelsInServer(channelId) {
+  const servers = bot.servers;
+  for (let item of Object.keys(servers)) {
+    if (!!servers[item].channels[channelId]) {
+      return servers[item].channels;
+    }
+  }
 }
