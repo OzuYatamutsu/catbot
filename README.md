@@ -42,7 +42,7 @@ function command(str) {
 }
 ```
 
-* _optional_ Document its use in `generators.doHelp`:
+* _optional_ Document its use in `generators.doHelp`.
 
 * You're good!
 
