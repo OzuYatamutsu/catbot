@@ -189,6 +189,14 @@ module.exports = {
         return Promise.resolve(body.text);
       });
   },
+  "doPlayYouTubeInVoiceChannel": (args) => {
+    let search = args.message.split("!catbot play")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let link = search.replace(channel, "").trim();
+
+    let id = NaN;
+    return Promise.resolve(`[debug] ID of ${channel} is ${id}, b0ss!`); // TODO debug
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 

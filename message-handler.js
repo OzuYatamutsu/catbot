@@ -31,6 +31,7 @@ function command(str) {
     "!catbot identify": generators.doImageIdentify,
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot catfact": generators.doCaas,
+    "!catbot play": generators.doPlayYouTubeInVoiceChannel,
     "!catbot help": generators.doHelp
   };
 
