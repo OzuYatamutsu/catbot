@@ -29,6 +29,7 @@ function command(str) {
     "!catbot video": generators.doYouTube,
     "!catbot react": generators.doReaction,
     "!catbot alpha": generators.doWolframAlpha,
+    "!catbot identify": generators.doImageIdentify,
     "!catbot help": generators.doHelp
   };
 
@@ -78,7 +79,17 @@ function fuzzyMatch(str) {
       `_The cat wants a pet._`,
       `Pets please!! =^_^=`,
       `=^w^=`,
-      `_The cat begins to dedotate more WAM to process bein' poked._`
+      `_The cat begins to dedotate more WAM to process bein' poked._`,
+      `_The cat retches._`,
+      `ｍｙａｎｅｙ　ｆｏｒ　ｍｅ　？　=ㅇㅅㅇ=`,
+      `Grou?`,
+      `OwO`,
+      `_The cat runs up to you and places his head in your lap._`,
+      `_The cat looks like he could use a snack._`,
+      `_The cat looks like he could use a friend._`,
+      `_The cat rubs his head against you._`,
+      `ｎｙeH Heh, heH =｀ω´=`,
+      `所有小吃都是我的 =｀ω´=`
     ])},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
     "@catbot help": generators.doHelp
