@@ -31,6 +31,14 @@ function fuzzyMatchWithMangling(needle, haystack) {
   return haystack.indexOf(needle) !== -1;
 }
 
+function findChannelIdByName(channels, name) {
+  for (let channel of Object.keys(channels)) {
+    if (channels[channel].name.toLowerCase() === name.toLowerCase().trim()) {
+      return channel;
+    }
+  }
+}
+
 module.exports = {
   "doGoogleImage": (args) => {
     let search = args.message.split("!catbot img")[1].trim();
@@ -190,11 +198,12 @@ module.exports = {
       });
   },
   "doPlayYouTubeInVoiceChannel": (args) => {
+    let channels = args.channels;
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
     let link = search.replace(channel, "").trim();
 
-    let id = NaN;
+    let id = findChannelIdByName(channels, channel);
     return Promise.resolve(`[debug] ID of ${channel} is ${id}, b0ss!`); // TODO debug
   },
   "doHelp": _ => {
