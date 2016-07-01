@@ -1,5 +1,5 @@
 const generators = require('./generators');
-const specialUserTimeout = 1800000; // ms (30 min)
+const specialUserTimeout = 3600000; // ms (1 hour)
 var ignoreSpecialUserTable = [];
 
 /*
