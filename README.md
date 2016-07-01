@@ -46,7 +46,7 @@ function command(str) {
 
 * You're good!
 
-<img src="" />
+<img src="https://raw.githubusercontent.com/OzuYatamutsu/catbot/master/catbot_ex1.png" />
 
 ## Cats?
 <img src="http://www.ohgizmo.com/wp-content/uploads/2014/03/Cat-Burger-Pillow.jpg" />
