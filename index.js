@@ -4,7 +4,6 @@ const handler = require('./message-handler');
 
 // (20 minutes)
 const statusChangeTime = 1200000; // ms until catbot status change
-const sneakModeSpecialUsers = ["jinko", "ashkor", "arokh", "keizu"];
 
 var bot = new Discord.Client({
   token: config.token,
@@ -30,9 +29,6 @@ bot.on('disconnected', _ => {
  * Fuzzy matches
  */
 bot.on('message', (user, userId, channelId, message, event) => {
-  // Sneak mode log-out
-  if (sneakModeSpecialUsers.indexOf(user.toLowerCase()) !== -1) console.log(`[sneak] Found ${user} = ${userId}!`);
-
   var handle = null;
   message = message.toLowerCase()
     .replace(`<@${bot.id}>`, `@catbot`);
