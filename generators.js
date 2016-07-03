@@ -294,7 +294,7 @@ module.exports = {
       });
     });
   
-    return Promise.resolve(`[debug] Not implemented, myan!`);
+    return Promise.resolve(``);
   },
 
   "doHelp": _ => {
