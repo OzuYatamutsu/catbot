@@ -5,6 +5,7 @@ const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 const wolfram = require('wolfram-alpha');
 const youtubeAudio = require('youtube-audio-stream');
+const googleTTS = require('google-tts-api');
 const fs = require('fs');
 
 function randInt(max) {
@@ -204,7 +205,8 @@ module.exports = {
     let channels = args.channels;
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
-    let link = search.replace(channel, "").trim();
+    let link = search.replace(channel, "").trim()
+      .replace(".", "");
     let id = findChannelIdByName(channels, channel);
    
     if (!id || channels[id].type !== "voice") {
@@ -229,7 +231,9 @@ module.exports = {
           stream.playAudioFile(id);
           stream.once('fileEnd', function() {
             console.log(`[voice] Removing stream ${id}, ended.`);
-            fs.unlink(id);
+            try {
+              fs.unlinkSync(id);
+            } catch (err) {}
             args.bot.leaveVoiceChannel(id);
           });
         });
@@ -251,16 +255,52 @@ module.exports = {
         // And delete stale audio streams if exist
         try {
           fs.statSync(channel).isFile();
-          fs.unlink(channel);
+          fs.unlinkSync(channel);
         } catch (err) {}
       }
     }
 
     return Promise.resolve(`yiss b0ss =;w;=`);
   },
+  "doTTS": (args) => {
+    let channels = args.channels;
+    let search = args.message.split("!catbot say")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let text = search.replace(channel, "").trim();
+    let id = findChannelIdByName(channels, channel);
+    
+    if (!id || channels[id].type !== "voice") {
+      return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
+    }   
+
+    let tts_stream = fs.createWriteStream(id);
+
+    googleTTS(text, 'en', 1)
+      .then((url) => {
+        request(url).pipe(tts_stream);
+      });
+    tts_stream.on('finish', _ => {
+      args.bot.joinVoiceChannel(id, _ => {
+        args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+          stream.playAudioFile(id);
+          stream.once('fileEnd', function() {
+            console.log(`[voice] Removing stream ${id}, ended.`);
+            try {
+              fs.unlinkSync(id);
+            } catch (err) {}
+            args.bot.leaveVoiceChannel(id);
+          });
+        });
+      });
+    });
+  
+    return Promise.resolve(`[debug] Not implemented, myan!`);
+  },
+
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"
+    + "`!catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
     + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<voice_channel>`.\n\n"
     + "`!catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
     + "**Text channels**\n"
