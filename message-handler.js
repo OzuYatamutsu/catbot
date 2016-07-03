@@ -33,6 +33,9 @@ function command(str) {
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot catfact": generators.doCaas,
     "!catbot play": generators.doPlayYouTubeInVoiceChannel,
+    "!catbot stop": generators.doStopPlayingAudio,
+    "!catbot shutup": generators.doStopPlayingAudio,
+    "!catbot shut up": generators.doStopPlayingAudio,
     "!catbot help": generators.doHelp
   };
 
