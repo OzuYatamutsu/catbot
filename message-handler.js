@@ -22,6 +22,7 @@ function multiStringRespond(arr) {
  * Returns a Promise based on a given !catbot directive.
  */
 function command(str) { 
+  str = str.toLowerCase();
   const table = {
     "!catbot pet": _ => { return stringRespond(`=´ω｀=`); },
     "!catbot img": generators.doGoogleImage,
@@ -31,6 +32,10 @@ function command(str) {
     "!catbot identify": generators.doImageIdentify,
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot catfact": generators.doCaas,
+    "!catbot play": generators.doPlayYouTubeInVoiceChannel,
+    "!catbot stop": generators.doStopPlayingAudio,
+    "!catbot shutup": generators.doStopPlayingAudio,
+    "!catbot shut up": generators.doStopPlayingAudio,
     "!catbot help": generators.doHelp
   };
 
@@ -47,6 +52,7 @@ function command(str) {
  * in the list. Matches as greedily as possible.
  */
 function fuzzyMatch(str) {
+  str = str.toLowerCase();
   const table = {
     "@catbot": _ => { return multiStringRespond([
       `_The cat completely ignores you._`,
@@ -105,6 +111,7 @@ function fuzzyMatch(str) {
  */
 function userMatchOnMention(userId, message) {
   // ...but ignore on @catbot help
+  message = message.toLowerCase();
   if (message.indexOf(`@catbot help`) === 0) return;
   const responseTable = {
     /* Jinhai */ "104382466436907008": [
