@@ -264,7 +264,7 @@ module.exports = {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"
     + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<voice_channel>`.\n\n"
-    + "`!catbot stop` - Makes catbot stop playing audio in voice channels.\n\n"
+    + "`!catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
     + "**Text channels**\n"
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
     + "`!catbot catfact` - Returns a random catfact.\n\n"
