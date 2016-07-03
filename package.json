@@ -23,6 +23,7 @@
     "request-promise": "*",
     "wolfram-alpha": "*",
     "youtube-search": "*",
-    "youtube-audio-stream": "*"
+    "youtube-audio-stream": "*",
+    "google-tts-api": "*"
   }
 }
