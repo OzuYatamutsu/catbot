@@ -5,9 +5,7 @@ const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 const wolfram = require('wolfram-alpha');
 const youtubeAudio = require('youtube-audio-stream');
-const ytdl = require('ytdl-core');
 const fs = require('fs');
-const pcm = require('pcm');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
