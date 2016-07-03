@@ -4,6 +4,10 @@ const googleImages = require('google-images');
 const youtubeSearch = require('youtube-search');
 const request = require('request-promise');
 const wolfram = require('wolfram-alpha');
+const youtubeAudio = require('youtube-audio-stream');
+const ytdl = require('ytdl-core');
+const fs = require('fs');
+const pcm = require('pcm');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -33,7 +37,8 @@ function fuzzyMatchWithMangling(needle, haystack) {
 
 function findChannelIdByName(channels, name) {
   for (let channel of Object.keys(channels)) {
-    if (channels[channel].name.toLowerCase() === name.toLowerCase().trim()) {
+    if (channel === name.toLowerCase().trim() 
+      || channels[channel].name.toLowerCase() === name.toLowerCase().trim()) {
       return channel;
     }
   }
@@ -202,23 +207,74 @@ module.exports = {
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
     let link = search.replace(channel, "").trim();
-
     let id = findChannelIdByName(channels, channel);
-    return Promise.resolve(`[debug] ID of ${channel} is ${id}, b0ss!`); // TODO debug
+   
+    if (!id || channels[id].type !== "voice") {
+      return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
+    }
+
+    let yt_stream = fs.createWriteStream(id);
+
+    try { 
+      youtubeAudio(link).pipe(yt_stream);
+    } catch (err) {
+      return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss!`);
+    }
+    
+    yt_stream.on('finish', _ => {
+      args.bot.joinVoiceChannel(id, _ => {
+        args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+          args.bot.sendMessage({
+            to: args.channelId, 
+            message: `Now playing, b0ss!`
+          });
+          stream.playAudioFile(id);
+          stream.once('fileEnd', function() {
+            console.log(`[voice] Removing stream ${id}, ended.`);
+            fs.unlink(id);
+            args.bot.leaveVoiceChannel(id);
+          });
+        });
+      });
+    });
+      
+    return Promise.resolve(`Loading audio stream, b0ss!`);
+  },
+  "doStopPlayingAudio": (args) => {
+    const channels = args.channels;
+    for (let channel of Object.keys(channels)) {
+      if (channels[channel].type === "voice") {
+        if (Object.keys(channels[channel].members).indexOf(args.bot.id) !== -1) {
+          args.bot.getAudioContext(channel, stream => {
+            stream.stopAudioFile();
+          });
+        }
+
+        // And delete stale audio streams if exist
+        try {
+          fs.statSync(channel).isFile();
+          fs.unlink(channel);
+        } catch (err) {}
+      }
+    }
+
+    return Promise.resolve(`yiss b0ss =;w;=`);
   },
   "doHelp": _ => {
-    return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n` 
-    + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n" 
-    + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
-    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
+    + "**Voice channels**\n"
+    + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<audio_channel>`.\n\n"
+    + "`!catbot stop` - Makes catbot stop playing audio in voice channels.\n\n"
+    + "**Text channels**\n"
+    + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
+    + "`!catbot catfact` - Returns a random catfact.\n\n"
     + "`!catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
     + "`!catbot img <search>` - Finds `<search>` on Google Images.\n\n"
-    + "**-----**\n\n"
-    + "`!catbot catfact` - Returns a random catfact.\n\n"
-    + "`!catbot catreaction` - Returns a random cat reaction.\n\n"
+    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
     + "~Jinhai =^w^="
     + "\n"
-    + "(Reactions are sourced from https://steakscorp.org/expressions.png/)"
+    + "(See https://steakscorp.org/expressions.png/ for reactions you can use for `!catbot react`)"
     + "\n"
     + "**...and more! Talk to your ket! =´∇｀=**");
   }
