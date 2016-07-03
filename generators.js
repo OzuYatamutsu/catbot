@@ -263,7 +263,7 @@ module.exports = {
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"
-    + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<audio_channel>`.\n\n"
+    + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<voice_channel>`.\n\n"
     + "`!catbot stop` - Makes catbot stop playing audio in voice channels.\n\n"
     + "**Text channels**\n"
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
