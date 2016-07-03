@@ -31,15 +31,15 @@ bot.on('disconnected', _ => {
 bot.on('message', (user, userId, channelId, message, event) => {
   let channels = channelsInServer(channelId);
   var handle = null;
-  message = message.toLowerCase()
+  message = message
     .replace(`<@${bot.id}>`, `@catbot`);
   handle = handler["__i_command"](message);
-  if (!handle) handle = handler[message];
+  if (!handle) handle = handler[message.toLowerCase()];
   if (!handle) handle = handler["__i_userMatchOnMention"](userId, message);
   if (!handle) handle = handler["__i_fuzzyMatch"](message);
   if (!handle) return; 
   
-  handle({user, userId, channelId, message, channels}).then((response) => {
+  handle({user, userId, channelId, message, channels, bot}).then((response) => {
     bot.sendMessage({
       to: channelId,
       message: response
