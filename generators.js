@@ -34,10 +34,11 @@ function fuzzyMatchWithMangling(needle, haystack) {
   return haystack.indexOf(needle) !== -1;
 }
 
-function findChannelIdByName(channels, name) {
+function findChannelIdByName(channels, name, type) {
   for (let channel of Object.keys(channels)) {
-    if (channel === name.toLowerCase().trim() 
-      || channels[channel].name.toLowerCase() === name.toLowerCase().trim()) {
+    if ((channel === name.toLowerCase().trim() 
+      || channels[channel].name.toLowerCase() === name.toLowerCase().trim())
+      && channels[channel].type === type) {
       return channel;
     }
   }
@@ -207,7 +208,7 @@ module.exports = {
     let channel = search.split(" ")[0].trim();
     let link = search.replace(channel, "").trim()
       .replace(".", "");
-    let id = findChannelIdByName(channels, channel);
+    let id = findChannelIdByName(channels, channel, "voice");
    
     if (!id || channels[id].type !== "voice") {
       return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
@@ -267,7 +268,7 @@ module.exports = {
     let search = args.message.split("!catbot say")[1].trim();
     let channel = search.split(" ")[0].trim();
     let text = search.replace(channel, "").trim();
-    let id = findChannelIdByName(channels, channel);
+    let id = findChannelIdByName(channels, channel, "voice");
     
     if (!id || channels[id].type !== "voice") {
       return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
