@@ -7,6 +7,7 @@ const wolfram = require('wolfram-alpha');
 const youtubeAudio = require('youtube-audio-stream');
 const googleTTS = require('google-tts-api');
 const fs = require('fs');
+const domain = require('domain');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -289,11 +290,20 @@ module.exports = {
     let yt_stream = fs.createWriteStream(id);
 
     try {
-      youtubeAudio.on('error', (err) => {
-        return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss! Error was: ${err}`); 
+      // Because we can't trust the library's error handlers
+      var d = domain.create();
+      d.on('error', (err) => {
+        args.bot.sendMessage({
+          to: args.channelId,
+          message: `\`${link}\` doesn't have a video I can play, b0ss! Is it region-locked or private or somethin'?`
+        });
+    
+        // Abort 
+        return Promise.resolve(``); 
       });
-
-      youtubeAudio(link).pipe(yt_stream);
+      d.run(_ => {
+        youtubeAudio(link).pipe(yt_stream);
+      });
     } catch (err) {
       return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss! Error was: ${err}`); 
     }
