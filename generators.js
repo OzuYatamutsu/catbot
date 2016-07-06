@@ -297,7 +297,28 @@ module.exports = {
   
     return Promise.resolve(``);
   },
+  // Admin feature
+  "doAdminChat": (args) => {
+    let admins = config.admins;
+    let channels = args.channels;
+    let search = args.message.split("!catbot _admin chat")[1].trim();
+    let channel_id = search.split(" ")[0].trim();
+    let text = search.replace(channel, "").trim();
+    let id = findChannelIdByName(channels, channel_id, "text");
 
+    if (!id || channels[id].type !== "text") {
+      return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
+    }
+
+    if (admins.indexOf(userId) !== -1) {
+      args.bot.sendMessage({
+        to: channel_id, 
+        message: text
+      });
+    }
+
+    return Promise.resolve(``);
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"

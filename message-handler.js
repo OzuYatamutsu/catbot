@@ -37,6 +37,7 @@ function command(str) {
     "!catbot shutup": generators.doStopPlayingAudio,
     "!catbot shut up": generators.doStopPlayingAudio,
     "!catbot say": generators.doTTS,
+    "!catbot _admin chat": generators.doAdminChat,
     "!catbot help": generators.doHelp
   };
 
