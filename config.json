@@ -15,7 +15,8 @@
   "api_keys": {
     "google_api": "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE",
     "google_image_cse": "007659116903720282115:lxppsh-kie8",
-    "wolfram": "5Y398Q-JU8LR2EY68"
+    "wolfram": "5Y398Q-JU8LR2EY68",
+    "soundcloud": "db4ed11f46ce774658fdcf07d634c809"
   },
   "admins": [
     "104382466436907008" 

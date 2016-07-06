@@ -7,6 +7,7 @@ const wolfram = require('wolfram-alpha');
 const youtubeAudio = require('youtube-audio-stream');
 const googleTTS = require('google-tts-api');
 const fs = require('fs');
+const domain = require('domain');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -202,12 +203,84 @@ module.exports = {
         return Promise.resolve(body.text);
       });
   },
+  "doPlaySoundCloudInVoiceChannel": (args) => {
+    const soundcloud_id = config.api_keys.soundcloud;
+    let channels = args.channels;
+    let search = args.message.split("!catbot play")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let link = search.replace(channel, "").trim();
+    let id = findChannelIdByName(channels, channel, "voice");
+   
+    if (!id || channels[id].type !== "voice") {
+      return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
+    }
+    const uri = `https://api.soundcloud.com/resolve.json?url=${link}&client_id=${soundcloud_id}`;
+    let options = {
+      uri,
+      json: true
+    };
+
+    return request(options)
+      .then((body) => {
+        const track_id = body.id;
+        var stream_uri = `https://api.soundcloud.com/tracks/${track_id}/download?client_id=${soundcloud_id}`;
+        let sc_stream = fs.createWriteStream(id);
+        console.log(track_id);
+        try {
+          request.head(stream_uri)
+            .then((response) => {
+              request(stream_uri).pipe(sc_stream);
+            })
+            .catch((err) => {
+              console.log("blocked");
+              const circumvent_uri = `https://api.soundcloud.com/i1/tracks/${track_id}/streams?client_id=${soundcloud_id}&app_version=1467724310`;
+              let uri_options = {
+                uri: circumvent_uri,
+                json: true
+              };
+    
+              request(uri_options)
+                .then((body) => {
+                  stream_uri = body.http_mp3_128_url;
+                  request(stream_uri).pipe(sc_stream);
+                });
+            });
+        } catch (err) {
+          console.log(`[soundcloud] Error: ${err}`);
+          return Promise.resolve(`\`${link}\` doesn't have a song I can play, b0ss!`);
+        }
+
+        sc_stream.on('finish', _ => {
+          args.bot.joinVoiceChannel(id, _ => {
+            args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+              args.bot.sendMessage({
+                to: args.channelId, 
+                message: `Now playing, b0ss!`
+              });
+              stream.playAudioFile(id);
+              stream.once('fileEnd', function() {
+                console.log(`[voice] Removing stream ${id}, ended.`);
+                try {
+                  fs.unlinkSync(id);
+                } catch (err) {}
+                args.bot.leaveVoiceChannel(id);
+              });
+            });
+          });
+        });
+
+        return Promise.resolve(`Loading audio stream, b0ss!`);
+      })
+    .catch((err) => {
+      // Try again by hitting button
+      //const stre      
+    });
+  },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
     let link = search.replace(channel, "").trim()
-      .replace(".", "");
     let id = findChannelIdByName(channels, channel, "voice");
    
     if (!id || channels[id].type !== "voice") {
@@ -216,10 +289,23 @@ module.exports = {
 
     let yt_stream = fs.createWriteStream(id);
 
-    try { 
-      youtubeAudio(link).pipe(yt_stream);
+    try {
+      // Because we can't trust the library's error handlers
+      var d = domain.create();
+      d.on('error', (err) => {
+        args.bot.sendMessage({
+          to: args.channelId,
+          message: `\`${link}\` doesn't have a video I can play, b0ss! Is it region-locked or private or somethin'?`
+        });
+    
+        // Abort 
+        return Promise.resolve(``); 
+      });
+      d.run(_ => {
+        youtubeAudio(link).pipe(yt_stream);
+      });
     } catch (err) {
-      return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss!`);
+      return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss! Error was: ${err}`); 
     }
     
     yt_stream.on('finish', _ => {
@@ -242,6 +328,16 @@ module.exports = {
     });
       
     return Promise.resolve(`Loading audio stream, b0ss!`);
+  },
+  "doSoundCloudOrYouTube": (args) => {
+    let search = args.message.split("!catbot play")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let link = search.replace(channel, "").trim()
+
+    if (link.indexOf("soundcloud.com") !== -1)
+      return module.exports.doPlaySoundCloudInVoiceChannel(args);
+    else
+      return module.exports.doPlayYouTubeInVoiceChannel(args);
   },
   "doStopPlayingAudio": (args) => {
     const channels = args.channels;
@@ -318,7 +414,7 @@ module.exports = {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"
     + "`!catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
-    + "`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in `<voice_channel>`.\n\n"
+    + "`!catbot play <voice_channel> <youtube_or_soundcloud_link>` - Plays a YouTube video or SoundCloud link in `<voice_channel>`.\n\n"
     + "`!catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
     + "**Text channels**\n"
     + "`!catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
