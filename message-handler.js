@@ -32,7 +32,7 @@ function command(str) {
     "!catbot identify": generators.doImageIdentify,
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot catfact": generators.doCaas,
-    "!catbot play": generators.doPlayYouTubeInVoiceChannel,
+    "!catbot play": generators.doSoundCloudOrYouTube,
     "!catbot stop": generators.doStopPlayingAudio,
     "!catbot shutup": generators.doStopPlayingAudio,
     "!catbot shut up": generators.doStopPlayingAudio,

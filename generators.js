@@ -7,7 +7,6 @@ const wolfram = require('wolfram-alpha');
 const youtubeAudio = require('youtube-audio-stream');
 const googleTTS = require('google-tts-api');
 const fs = require('fs');
-const events = require('events');
 
 function randInt(max) {
   return Math.floor(Math.random() * max);
@@ -43,25 +42,6 @@ function findChannelIdByName(channels, name, type) {
       return channel;
     }
   }
-}
-
-function onStreamFinished() {
-  args.bot.joinVoiceChannel(id, _ => {
-    args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
-      args.bot.sendMessage({
-        to: args.channelId, 
-        message: `Now playing, b0ss!`
-      });
-      stream.playAudioFile(id);
-      stream.once('fileEnd', function() {
-        console.log(`[voice] Removing stream ${id}, ended.`);
-        try {
-          fs.unlinkSync(id);
-        } catch (err) {}
-        args.bot.leaveVoiceChannel(id);
-      });
-    });
-  });
 }
 
 module.exports = {
@@ -222,11 +202,17 @@ module.exports = {
         return Promise.resolve(body.text);
       });
   },
+  "doPlaySoundCloudInVoiceChannel": (args) => {
+    const soundcloud_id = config.api_keys.soundcloud;
+    const uri = `https://api.soundcloud.com/resolve.json?url=${link}&client_id=${soundcloud_id}`;
+
+  },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
-    let link = search.replace(channel, "").trim();
+    let link = search.replace(channel, "").trim()
+      .replace(".", "");
     let id = findChannelIdByName(channels, channel, "voice");
    
     if (!id || channels[id].type !== "voice") {
@@ -235,32 +221,42 @@ module.exports = {
 
     let yt_stream = fs.createWriteStream(id);
 
-    try {
-      if (link.indexOf("soundcloud.com") !== -1) {
-        // Get ID of track
-        const soundcloud_id = config.api_keys.soundcloud;
-        const uri = `https://api.soundcloud.com/resolve.json?url=${link}&client_id=${soundcloud_id}`;
-        var track_id = "";
-        let options = {
-          uri,
-          json: true
-        };
-       
-        request(options)
-          .then((body) => {
-            track_id = body.id;         
-          });
-        const path = "" //TODO
-      }  
-      else youtubeAudio(link).pipe(yt_stream);
+    try { 
+      youtubeAudio(link).pipe(yt_stream);
     } catch (err) {
-      console.log(err);
       return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss!`);
     }
     
-    yt_stream.on('finish', _ => onStreamFinished);
+    yt_stream.on('finish', _ => {
+      args.bot.joinVoiceChannel(id, _ => {
+        args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+          args.bot.sendMessage({
+            to: args.channelId, 
+            message: `Now playing, b0ss!`
+          });
+          stream.playAudioFile(id);
+          stream.once('fileEnd', function() {
+            console.log(`[voice] Removing stream ${id}, ended.`);
+            try {
+              fs.unlinkSync(id);
+            } catch (err) {}
+            args.bot.leaveVoiceChannel(id);
+          });
+        });
+      });
+    });
       
     return Promise.resolve(`Loading audio stream, b0ss!`);
+  },
+  "doSoundCloudOrYouTube": (args) => {
+    let search = args.message.split("!catbot play")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let link = search.replace(channel, "").trim()
+
+    if (link.indexOf("soundcloud.com") !== -1)
+      return module.exports.doPlaySoundCloudInVoiceChannel(args);
+    else
+      return module.exports.doPlayYouTubeInVoiceChannel(args);
   },
   "doStopPlayingAudio": (args) => {
     const channels = args.channels;
