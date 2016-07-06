@@ -280,7 +280,6 @@ module.exports = {
     let search = args.message.split("!catbot play")[1].trim();
     let channel = search.split(" ")[0].trim();
     let link = search.replace(channel, "").trim()
-      .replace(".", "");
     let id = findChannelIdByName(channels, channel, "voice");
    
     if (!id || channels[id].type !== "voice") {
@@ -289,10 +288,14 @@ module.exports = {
 
     let yt_stream = fs.createWriteStream(id);
 
-    try { 
+    try {
+      youtubeAudio.on('error', (err) => {
+        return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss! Error was: ${err}`); 
+      });
+
       youtubeAudio(link).pipe(yt_stream);
     } catch (err) {
-      return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss!`);
+      return Promise.resolve(`\`${link}\` doesn't have a video I can play, b0ss! Error was: ${err}`); 
     }
     
     yt_stream.on('finish', _ => {
