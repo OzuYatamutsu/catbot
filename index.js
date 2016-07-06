@@ -74,7 +74,7 @@ function scheduleStatusChange() {
  * Changes the bot's status.
  */
 function changeStatus(newStatus) {
-  console.log(`Changing status to: ${newStatus}`);
+  //console.log(`Changing status to: ${newStatus}`);
   bot.setPresence({game: newStatus});
 }
 
