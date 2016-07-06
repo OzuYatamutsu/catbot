@@ -204,8 +204,76 @@ module.exports = {
   },
   "doPlaySoundCloudInVoiceChannel": (args) => {
     const soundcloud_id = config.api_keys.soundcloud;
+    let channels = args.channels;
+    let search = args.message.split("!catbot play")[1].trim();
+    let channel = search.split(" ")[0].trim();
+    let link = search.replace(channel, "").trim();
+    let id = findChannelIdByName(channels, channel, "voice");
+   
+    if (!id || channels[id].type !== "voice") {
+      return Promise.resolve(`\`${channel}\` doesn't exist or isn't a voice channel, myan!`);
+    }
     const uri = `https://api.soundcloud.com/resolve.json?url=${link}&client_id=${soundcloud_id}`;
+    let options = {
+      uri,
+      json: true
+    };
 
+    return request(options)
+      .then((body) => {
+        const track_id = body.id;
+        var stream_uri = `https://api.soundcloud.com/tracks/${track_id}/download?client_id=${soundcloud_id}`;
+        let sc_stream = fs.createWriteStream(id);
+        console.log(track_id);
+        try {
+          request.head(stream_uri)
+            .then((response) => {
+              request(stream_uri).pipe(sc_stream);
+            })
+            .catch((err) => {
+              console.log("blocked");
+              const circumvent_uri = `https://api.soundcloud.com/i1/tracks/${track_id}/streams?client_id=${soundcloud_id}&app_version=1467724310`;
+              let uri_options = {
+                uri: circumvent_uri,
+                json: true
+              };
+    
+              request(uri_options)
+                .then((body) => {
+                  stream_uri = body.http_mp3_128_url;
+                  request(stream_uri).pipe(sc_stream);
+                });
+            });
+        } catch (err) {
+          console.log(`[soundcloud] Error: ${err}`);
+          return Promise.resolve(`\`${link}\` doesn't have a song I can play, b0ss!`);
+        }
+
+        sc_stream.on('finish', _ => {
+          args.bot.joinVoiceChannel(id, _ => {
+            args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+              args.bot.sendMessage({
+                to: args.channelId, 
+                message: `Now playing, b0ss!`
+              });
+              stream.playAudioFile(id);
+              stream.once('fileEnd', function() {
+                console.log(`[voice] Removing stream ${id}, ended.`);
+                try {
+                  fs.unlinkSync(id);
+                } catch (err) {}
+                args.bot.leaveVoiceChannel(id);
+              });
+            });
+          });
+        });
+
+        return Promise.resolve(`Loading audio stream, b0ss!`);
+      })
+    .catch((err) => {
+      // Try again by hitting button
+      //const stre      
+    });
   },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
