@@ -304,8 +304,8 @@ module.exports = {
     let search = args.message.split("!catbot _admin chat")[1].trim();
     let channel_id = search.split(" ")[0].trim();
     let text = search.replace(channel_id, "").trim();
-   
-    if (admins.indexOf(userId) !== -1) {
+  
+    if (admins.indexOf(args.userId) !== -1) {
       args.bot.sendMessage({
         to: channel_id, 
         message: text
