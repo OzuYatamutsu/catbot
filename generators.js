@@ -347,13 +347,13 @@ module.exports = {
           args.bot.getAudioContext(channel, stream => {
             stream.stopAudioFile();
           });
+          
+          // And delete stale audio stream
+          try {
+            fs.statSync(channel).isFile();
+            fs.unlinkSync(channel);
+          } catch (err) {}
         }
-
-        // And delete stale audio streams if exist
-        try {
-          fs.statSync(channel).isFile();
-          fs.unlinkSync(channel);
-        } catch (err) {}
       }
     }
 
