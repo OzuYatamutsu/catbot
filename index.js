@@ -1,6 +1,7 @@
 const Discord = require('discord.io');
 const config = require('./config');
 const handler = require('./message-handler');
+const personality = require(`./gpp/${config.personality}`);
 
 // (20 minutes)
 const statusChangeTime = 1200000; // ms until catbot status change
@@ -16,8 +17,8 @@ bot.on('ready', _ => {
 });
 
 bot.on('disconnected', _ => {
-  console.log("Disconnected from Discord. Reconnecting...");
-  connectBot();
+  console.log("Disconnected from Discord. Reconnecting in ten seconds...");
+  setTimeout(connectBot, 10000);
 });
 
 /*
@@ -54,9 +55,8 @@ bot.on('message', (user, userId, channelId, message, event) => {
  * Connects the bot + sets config options
  */
 function connectBot() {
-  const nowPlaying = config.playing[Math.floor(Math.random() * config.length)];
-
   bot.connect();
+  if (bot.username != personality.name) changeName(personality.name);
   setTimeout(scheduleStatusChange, 1000);
 }
 
@@ -64,7 +64,7 @@ function connectBot() {
  * Triggers a status change and schedules the next one.
  */
 function scheduleStatusChange() {
-  const newStatus = config.playing[Math.floor(Math.random() * config.playing.length)];
+  const newStatus = personality.playing[Math.floor(Math.random() * personality.playing.length)];
 
   changeStatus(newStatus);
   setTimeout(scheduleStatusChange, statusChangeTime);

@@ -1,18 +1,6 @@
 {
   "personality": "catbot_monkey",
   "token": "MTkwNjg5NjQ1MDUzNDc2ODY0.CjxV0g.K1cjm9xX5fTdLoEC6i2F6aWqvlw",
-  "playing": [
-    "Catting around",
-    "Not caring about you", 
-    "Walking on keyboards", 
-    "The piano",
-    "Bapping household objects",
-    "Ignoring you",
-    "Knocking stuff over",
-    "Making strange noises at birds",
-    "Snoozin'",
-    "STALKING =@w@="
-  ],
   "api_keys": {
     "google_api": "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE",
     "google_image_cse": "007659116903720282115:lxppsh-kie8",
