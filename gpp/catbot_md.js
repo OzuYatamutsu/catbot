@@ -1,4 +1,6 @@
-{
+const defaultPersonality = require('./default');
+
+module.exports = {
   "name": "Catbot, MD",
   "playing": [
     "Medicare",
@@ -7,5 +9,5 @@
     "Increasing premiums",
     "Pricing drugs"
   ],
-  "responses": []
-}
+  "responses": defaultPersonality.responses
+};

@@ -1,4 +1,4 @@
-{
+module.exports = {
   "name": "Catbot",
   "playing": [
     "Catting around",
@@ -46,4 +46,4 @@
       `=^w^=`,
       `_The cat begins to dedotate more WAM to process bein' poked._`
     ]
-}
+};
