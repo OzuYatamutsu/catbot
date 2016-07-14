@@ -40,6 +40,7 @@ function command(str) {
     "!catbot shutup": generators.doStopPlayingAudio,
     "!catbot shut up": generators.doStopPlayingAudio,
     "!catbot say": generators.doTTS,
+    "!catbot salmon": generators.salmonTreats,
     "!catbot _admin chat": generators.doAdminChat,
     "!catbot help": generators.doHelp
   };
@@ -61,7 +62,8 @@ function fuzzyMatch(str) {
   const table = {
     "@catbot": _ => { return multiStringRespond(personality.responses)},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
-    "@catbot help": generators.doHelp
+    "@catbot help": generators.doHelp,
+    "salmon": generators.salmonTreats
   };
 
   const sortedKeys = Object.keys(table).sort((a, b) => {

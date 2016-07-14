@@ -393,6 +393,22 @@ module.exports = {
   
     return Promise.resolve(``);
   },
+  "salmonTreats": (args) => {
+    if (args.message.toLowerCase().indexOf("catbot") === -1) return;
+    const responseTable = [
+      `ｔｒｅａｔｓ　ｆｏｒ　ｍｅ　？　=OwO=`,
+      `ｔｒｅａｔｓ　， （=´ω｀=）`,
+      `gib da ｆｅｅｓｈ　b0ss ='o'=`,
+      `ｔｈａｎｋ， =´∇｀=`,
+      `fiｓｈｅｓ for me？　ｒｒＲＲＲ =◕ ⋏◕=`,
+      `rOUUU <3`,
+      `_myooooouu_ <333`,
+      `=-w-=`,
+      `<3`
+    ];
+  
+    return Promise.resolve(responseTable[randInt(responseTable.length)]);
+  },
   // Admin feature
   "doAdminChat": (args) => {
     let admins = config.admins;
