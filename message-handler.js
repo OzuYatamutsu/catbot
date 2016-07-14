@@ -66,11 +66,15 @@ function fuzzyMatch(str) {
     "salmon": generators.salmonTreats
   };
 
-  const sortedKeys = Object.keys(table).sort((a, b) => {
+  var sortedKeys = Object.keys(table).sort((a, b) => {
     if (a.length < b.length) return 1;
     else if (a.length > b.length) return -1;
     return 0;
   });
+
+  // But @catbot is always last match
+  sortedKeys.splice(sortedKeys.indexOf("@catbot"), 1);
+  sortedKeys.push("@catbot");
 
   for (var key of sortedKeys) {
     if (str.indexOf(key) !== -1) return table[key];
