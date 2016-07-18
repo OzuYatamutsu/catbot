@@ -55,14 +55,14 @@ bot.on('message', (user, userId, channelId, message, event) => {
  * Connects the bot + sets config options
  */
 function connectBot() {
-  try {
-    bot.connect();
-    if (bot.username != personality.name) changeName(personality.name);
-  } catch {
+  bot.connect();
+  if (!bot.connected) {
     console.log("Connect failed. Retrying in ten seconds...");
     setTimeout(connectBot, 10000);
     return;
   }
+
+  if (bot.username != personality.name) changeName(personality.name);
   setTimeout(scheduleStatusChange, 1000);
 }
 
