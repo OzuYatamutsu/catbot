@@ -30,25 +30,35 @@ bot.on('disconnected', _ => {
  * Fuzzy matches
  */
 bot.on('message', (user, userId, channelId, message, event) => {
-  let channels = channelsInServer(channelId);
-  var handle = null;
-  message = message
-    .replace(`<@${bot.id}>`, `@catbot`);
-  handle = handler["__i_command"](message);
-  if (!handle) handle = handler[message.toLowerCase()];
-  if (!handle) handle = handler["__i_userMatchOnMention"](userId, message);
-  if (!handle) handle = handler["__i_fuzzyMatch"](message);
-  if (!handle) return; 
+  try {
+    let channels = channelsInServer(channelId);
+    var handle = null;
+    message = message
+      .replace(`<@${bot.id}>`, `@catbot`);
+    handle = handler["__i_command"](message);
+    if (!handle) handle = handler[message.toLowerCase()];
+    if (!handle) handle = handler["__i_userMatchOnMention"](userId, message);
+    if (!handle) handle = handler["__i_fuzzyMatch"](message);
+    if (!handle) return; 
   
-  handle({user, userId, channelId, message, channels, bot}).then((response) => {
-    bot.sendMessage({
-      to: channelId,
-      message: response
-    });
-  });
-
-  // Log out catbot mentions
-  console.log(`[mention] ${user} (${userId}): ${message}`);
+    
+    let result = handle({user, userId, channelId, message, channels, bot});
+    // Log out catbot mentions
+    console.log(`[mention] ${user} (${userId}): ${message}`);
+    if (!result) {
+      console.log(`[error] What, result was null?? Caller was ${JSON.stringify(handle)}`);
+      return;
+    }
+    
+    result
+      .then((response) => {
+        bot.sendMessage({
+          to: channelId,
+          message: response
+        });
+      })
+      .catch((e) => { console.log(`[error] ${e}`) });
+  } catch (e) { console.log(`[error] ${e}`) }
 });
 
 /*

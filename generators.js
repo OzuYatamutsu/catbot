@@ -271,10 +271,6 @@ module.exports = {
 
         return Promise.resolve(`Loading audio stream, b0ss!`);
       })
-    .catch((err) => {
-      // Try again by hitting button
-      //const stre      
-    });
   },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
@@ -346,6 +342,7 @@ module.exports = {
         if (Object.keys(channels[channel].members).indexOf(args.bot.id) !== -1) {
           args.bot.getAudioContext(channel, stream => {
             stream.stopAudioFile();
+            args.bot.leaveVoiceChannel(channel);
           });
           
           // And delete stale audio stream
