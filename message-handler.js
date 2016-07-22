@@ -2,7 +2,7 @@ const config = require('./config');
 const generators = require('./generators');
 const personality = require(`./gpp/${config.personality}`);
 
-const specialUserTimeout = 3600000; // ms (1 hour)
+const specialUserTimeout = 604800000; // ms (1 week)
 var ignoreSpecialUserTable = [];
 
 /*
