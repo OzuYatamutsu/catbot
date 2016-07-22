@@ -346,6 +346,7 @@ module.exports = {
         if (Object.keys(channels[channel].members).indexOf(args.bot.id) !== -1) {
           args.bot.getAudioContext(channel, stream => {
             stream.stopAudioFile();
+            args.bot.leaveVoiceChannel(channel);
           });
           
           // And delete stale audio stream
