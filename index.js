@@ -43,14 +43,13 @@ bot.on('message', (user, userId, channelId, message, event) => {
   
     
     let result = handle({user, userId, channelId, message, channels, bot});
-  
     // Log out catbot mentions
     console.log(`[mention] ${user} (${userId}): ${message}`);
     if (!result) {
       console.log(`[error] What, result was null?? Caller was ${JSON.stringify(handle)}`);
       return;
     }
-  
+    
     result
       .then((response) => {
         bot.sendMessage({
@@ -58,7 +57,7 @@ bot.on('message', (user, userId, channelId, message, event) => {
           message: response
         });
       })
-      .err((e) => { console.log(`[error] ${e}`) });
+      .catch((e) => { console.log(`[error] ${e}`) });
   } catch (e) { console.log(`[error] ${e}`) }
 });
 
