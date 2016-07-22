@@ -271,10 +271,6 @@ module.exports = {
 
         return Promise.resolve(`Loading audio stream, b0ss!`);
       })
-    .catch((err) => {
-      // Try again by hitting button
-      //const stre      
-    });
   },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
