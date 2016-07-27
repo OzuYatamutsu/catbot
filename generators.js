@@ -371,7 +371,16 @@ module.exports = {
 
     googleTTS(text, 'en', 1)
       .then((url) => {
-        request(url).pipe(tts_stream);
+        request({uri: url, simple: true, method: 'HEAD'})
+          .on('response', _ => {
+            request(url).pipe(tts_stream);
+          })
+          .catch((e) => {
+            args.bot.sendMessage({
+              to: args.channelId, 
+              message: `That's a mouthful, myan. Try feedin' me less words to say!`
+            });
+          });
       });
     tts_stream.on('finish', _ => {
       args.bot.joinVoiceChannel(id, _ => {
