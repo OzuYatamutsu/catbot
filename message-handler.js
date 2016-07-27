@@ -41,6 +41,7 @@ function command(str) {
     "!catbot shut up": generators.doStopPlayingAudio,
     "!catbot say": generators.doTTS,
     "!catbot salmon": generators.salmonTreats,
+    "!catbot goodshit": generators.doGoodShit,
     "!catbot _admin chat": generators.doAdminChat,
     "!catbot help": generators.doHelp
   };
