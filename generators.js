@@ -432,6 +432,9 @@ module.exports = {
 
     return Promise.resolve(``);
   },
+  "doGoodShit": _ => {
+    return Promise.resolve(`👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　ｉ　ｔａｌｋ　ａｂｏｕｔ　ｒｉｇｈｔ　ｄｅｒｅ　ｂ０ｓｓ　．`)  
+  },
   "doHelp": _ => {
     return Promise.resolve(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
     + "**Voice channels**\n"
@@ -443,6 +446,7 @@ module.exports = {
     + "`!catbot catfact` - Returns a random catfact.\n\n"
     + "`!catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
     + "`!catbot img <search>` - Finds `<search>` on Google Images.\n\n"
+    + "`!catbot goodshit` - A meme or somethin'.\n\n"
     + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
     + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
     + "~Jinhai =^w^="
