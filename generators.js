@@ -45,6 +45,12 @@ function findChannelIdByName(channels, name, type) {
   }
 }
 
+function escapeChannelNameIfNeeded(search) {
+  return search.indexOf('`') !== -1 
+    ? search.split('`')[1].split('`')[0] 
+    : search.split(" ")[0].trim();
+}
+
 module.exports = {
   "doGoogleImage": (args) => {
     let search = args.message.split("!catbot img")[1].trim();
@@ -207,7 +213,7 @@ module.exports = {
     const soundcloud_id = config.api_keys.soundcloud;
     let channels = args.channels;
     let search = args.message.split("!catbot play")[1].trim();
-    let channel = search.split(" ")[0].trim();
+    let channel = escapeChannelNameIfNeeded(search);  
     let link = search.replace(channel, "").trim();
     let id = findChannelIdByName(channels, channel, "voice");
    
@@ -274,8 +280,8 @@ module.exports = {
   },
   "doPlayYouTubeInVoiceChannel": (args) => {
     let channels = args.channels;
-    let search = args.message.split("!catbot play")[1].trim();
-    let channel = search.split(" ")[0].trim();
+    let search = args.message.split("!catbot play")[1].trim(); 
+    let channel = escapeChannelNameIfNeeded(search);  
     let link = search.replace(channel, "").trim()
     let id = findChannelIdByName(channels, channel, "voice");
    
@@ -327,7 +333,7 @@ module.exports = {
   },
   "doSoundCloudOrYouTube": (args) => {
     let search = args.message.split("!catbot play")[1].trim();
-    let channel = search.split(" ")[0].trim();
+    let channel = escapeChannelNameIfNeeded(search);  
     let link = search.replace(channel, "").trim()
 
     if (link.indexOf("soundcloud.com") !== -1)
@@ -358,8 +364,8 @@ module.exports = {
   },
   "doTTS": (args) => {
     let channels = args.channels;
-    let search = args.message.split("!catbot say")[1].trim();
-    let channel = search.split(" ")[0].trim();
+    let search = args.message.split("!catbot say")[1].trim();  
+    let channel = escapeChannelNameIfNeeded(search);  
     let text = search.replace(channel, "").trim();
     let id = findChannelIdByName(channels, channel, "voice");
     
@@ -450,8 +456,8 @@ module.exports = {
     + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
     + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
     + "~Jinhai =^w^="
-    + "\n"
-    + "(See https://steakscorp.org/expressions.png/ for reactions you can use for `!catbot react`)"
+    + "\n\n"
+    + "To handle voice channels with spaces in 'em, surround the channel name with the \\` character (e.g. **!catbot say \\`meem channel\\` meems**). See https://steakscorp.org/expressions.png/ for reactions you can use for `!catbot react`."
     + "\n"
     + "**...and more! Talk to your ket! =´∇｀=**");
   }
