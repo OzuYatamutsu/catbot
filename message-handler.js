@@ -3,6 +3,7 @@ const generators = require('./generators');
 const personality = require(`./gpp/${config.personality}`);
 
 const specialUserTimeout = 604800000; // ms (1 week)
+const specialUserChance = 0.3; // 30% chance of triggering a special response
 var ignoreSpecialUserTable = [];
 
 /*
@@ -92,6 +93,8 @@ function userMatchOnMention(userId, message) {
   // ...but ignore on @catbot help
   message = message.toLowerCase();
   if (message.indexOf(`@catbot help`) === 0) return;
+  if (Math.random() > specialUserChance) return;
+ 
   const responseTable = {
     /* Jinhai */ "104382466436907008": [
       `hi b0ss =・ω・=`,
