@@ -65,6 +65,7 @@ function fuzzyMatch(str) {
     "@catbot": _ => { return multiStringRespond(personality.responses)},
     "pets @catbot": _ => { return stringRespond(`thank b0ss =｀ω´=`); },
     "@catbot help": generators.doHelp,
+    "@catbot jack in": generators.doJackIn,
     "salmon": generators.salmonTreats
   };
 
