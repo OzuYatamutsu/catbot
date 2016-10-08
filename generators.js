@@ -421,6 +421,17 @@ module.exports = {
   
     return Promise.resolve(responseTable[randInt(responseTable.length)]);
   },
+  "doDiceRoll": (args) => {
+    let range = args.message.split("!catbot roll ")[1].trim().split(" ");
+    let result = 0;
+    if (range.length === 1)
+      result = Math.floor(Math.random() * (parseInt(range[0]) - 1));
+    else if (range.length === 2)
+      result = Math.floor(Math.random() * (parseInt(range[1]) - parseInt(range[0]) + 1) + parseInt(range[0]));
+    else
+      return Promise.resolve("_The cat doesn't know what to do. Try something like: `!catbot roll 6`_");
+    return Promise.resolve(`_The cat fluffles up a ${result}!_`);
+  },
   // Admin feature
   "doAdminChat": (args) => {
     let admins = config.admins;
@@ -456,7 +467,8 @@ module.exports = {
     + "`!catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
     + "`!catbot img <search>` - Finds `<search>` on Google Images.\n\n"
     + "`!catbot goodshit` - A meme or somethin'.\n\n"
-    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n"
+    + "`!catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n" 
+    + "`!catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
     + "`!catbot video <search>` - Finds `<search>` on YouTube.\n\n"
     + "~Jinhai =^w^="
     + "\n\n"
