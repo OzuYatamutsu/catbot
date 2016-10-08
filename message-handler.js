@@ -37,6 +37,7 @@ function command(str) {
     "!catbot alpha": generators.doWolframAlpha,
     "!catbot catfact": generators.doCaas,
     "!catbot play": generators.doSoundCloudOrYouTube,
+    "!catbot roll": generators.doDiceRoll,
     "!catbot stop": generators.doStopPlayingAudio,
     "!catbot shutup": generators.doStopPlayingAudio,
     "!catbot shut up": generators.doStopPlayingAudio,
