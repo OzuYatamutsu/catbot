@@ -257,22 +257,29 @@ module.exports = {
         }
 
         sc_stream.on('finish', _ => {
-          args.bot.joinVoiceChannel(id, _ => {
-            args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
-              args.bot.sendMessage({
-                to: args.channelId, 
-                message: `Now playing, b0ss!`
-              });
-              stream.playAudioFile(id);
-              stream.once('fileEnd', function() {
-                console.log(`[voice] Removing stream ${id}, ended.`);
-                try {
-                  fs.unlinkSync(id);
-                } catch (err) {}
-                args.bot.leaveVoiceChannel(id);
+          try {
+            args.bot.joinVoiceChannel(id, _ => {
+              args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+                args.bot.sendMessage({
+                  to: args.channelId, 
+                  message: `Now playing, b0ss!`
+                });
+                stream.playAudioFile(id);
+                stream.once('fileEnd', function() {
+                  console.log(`[voice] Removing stream ${id}, ended.`);
+                  try {
+                    fs.unlinkSync(id);
+                  } catch (err) {}
+                  args.bot.leaveVoiceChannel(id);
+                });
               });
             });
-          });
+          } catch (err) {
+            args.bot.sendMessage({
+              to: args.channelId, 
+              message: `Couldn't play in that voice channel, b0ss. Is it locked? =owo=`
+            });
+          } 
         });
 
         return Promise.resolve(`Loading audio stream, b0ss!`);
@@ -311,22 +318,29 @@ module.exports = {
     }
     
     yt_stream.on('finish', _ => {
-      args.bot.joinVoiceChannel(id, _ => {
-        args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
-          args.bot.sendMessage({
-            to: args.channelId, 
-            message: `Now playing, b0ss!`
-          });
-          stream.playAudioFile(id);
-          stream.once('fileEnd', function() {
-            console.log(`[voice] Removing stream ${id}, ended.`);
-            try {
-              fs.unlinkSync(id);
-            } catch (err) {}
-            args.bot.leaveVoiceChannel(id);
+      try {
+        args.bot.joinVoiceChannel(id, _ => {
+          args.bot.getAudioContext({channel: id, stereo: true}, (stream) => {
+            args.bot.sendMessage({
+              to: args.channelId, 
+              message: `Now playing, b0ss!`
+            });
+            stream.playAudioFile(id);
+            stream.once('fileEnd', function() {
+              console.log(`[voice] Removing stream ${id}, ended.`);
+              try {
+                fs.unlinkSync(id);
+              } catch (err) {}
+              args.bot.leaveVoiceChannel(id);
+            });
           });
         });
-      });
+      } catch (err) {
+        args.bot.sendMessage({
+          to: args.channelId, 
+          message: `Couldn't play in that voice channel, b0ss. Is it locked? =owo=`
+        });
+      }
     });
       
     return Promise.resolve(`Loading audio stream, b0ss!`);
