@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const config = require('./config');
-
-const bot_utils = require('./bot_utils.js');
-const handler = require('./message-handler');
 const personality = require(`./gpp/${config.personality}`);
+
+const bot_utils = require('./bot_utils');
+const handlers = require('./handlers');
 
 const bot = new Discord.Client();
 bot.login(config.token);
@@ -21,9 +21,7 @@ bot.on('ready', _ => {
 });
 
 bot.on('message', message => {
-if (config.admins.indexOf(message.author.id) !== -1) {
-  // DEBUG
-  if (message.content.indexOf('!a') !== -1) bot.channels.find('id', "108541927376338944").sendMessage(message.content.replace("!a", ""));
-  }
+  if (message.content.indexOf(bot.user.id) !== -1)
+    handlers.route(bot, message);
 });
 
