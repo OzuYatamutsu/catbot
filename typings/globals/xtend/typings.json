@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/360b85fdbf0e8abda4b0e627108d728b9d5986c9/xtend/xtend.d.ts",
+    "raw": "registry:dt/xtend#4.0.1+20161008175814",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/360b85fdbf0e8abda4b0e627108d728b9d5986c9/xtend/xtend.d.ts"
+  }
+}
