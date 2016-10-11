@@ -19,6 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="handlers.js" />
     <Compile Include="utils.js" />
     <Content Include="catbot_ex1.png" />
     <Content Include="config.json" />
