@@ -12,7 +12,10 @@ module.exports = {
     const newStatus = utils.randomItem(personalities);
 
     this.changeStatus(bot, newStatus);
-    setTimeout(this.scheduleStatusChange, this.statusChangeTime);
+
+    setTimeout(function () {
+      this.scheduleStatusChange(personalities)
+    }, this.statusChangeTime);
   },
   changeStatus: function (bot, newStatus) {
     bot.user
