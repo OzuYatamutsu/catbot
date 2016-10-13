@@ -13,9 +13,9 @@ module.exports = {
 
     this.changeStatus(bot, newStatus);
 
-    setTimeout(function () {
-      this.scheduleStatusChange(personalities)
-    }, this.statusChangeTime);
+    setTimeout((bot, personalities) => {
+      this.scheduleStatusChange(bot, personalities);
+    }, this.statusChangeTime, bot, personalities);
   },
   changeStatus: function (bot, newStatus) {
     bot.user
