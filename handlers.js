@@ -239,7 +239,9 @@ module.exports = {
 
     "help": function (bot, message, args) {
       message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
-        + "I'm having maintenance done, so some stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+        + "**Voice channels**\n"
+        + "I'm having maintenance done, so voice stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+        + "**Text channels**\n"
         + "`@Catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"
         + "`@Catbot catfact` - Returns a random catfact.\n\n"
         + "`@Catbot goodshit` - A meme or somethin'.\n\n"
