@@ -1,6 +1,7 @@
 ﻿const request = require('request-promise');
 const bluebird = require('bluebird'); // Promisify node callback APIs
 const wolfram = require('wolfram-alpha');
+const googleImages = require('google-images');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -24,6 +25,7 @@ module.exports = {
       + "`@Catbot catfact` - Returns a random catfact.\n\n"
       + "`@Catbot goodshit` - A meme or somethin'.\n\n"
       + "`@Catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
+      + "`@Catbot img <search>` - Finds `<search>` on Google Images.\n\n"
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
       + "`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
       + "~Jinhai =^w^="
@@ -119,6 +121,20 @@ module.exports = {
         .then((body) => {
           if (!body.identify || !body.identify.title) return Promise.resolve(`arr, dun knｏｗ　ｗｔｆ　ｉｓ　ｔｈａｔ　ｓｏｎ =｀ェ´=`);
           message.channel.sendMessage(`That looks like **${body.identify.title}** to me, myan!`);
+        });
+    },
+
+    "!catbot img": function (bot, message, args) {
+      let search = args.join(" ");
+      const cse_id = config.api_keys.google_image_cse;
+      const api_id = config.api_keys.google_api;
+      const max_pages = 50;
+      let client = new googleImages(cse_id, api_id);
+      return client.search(search)
+        .then((images) => {
+          return message.channel.sendMessage(
+            utils.randomItem(images).url
+          );
         });
     },
 
