@@ -22,7 +22,7 @@ bot.on('ready', _ => {
 
 bot.on('message', message => {
   if (message.content.indexOf(bot.user.id) !== -1) {
-    console.log(`[mention] ${message.content}`)
+    console.log(`[mention] ${message.author.username}: ${message.content}`);
     handlers.route(bot, message);
   }  
 });
