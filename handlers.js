@@ -1,4 +1,6 @@
 ﻿const request = require('request-promise');
+const bluebird = require('bluebird'); // Promisify node callback APIs
+const wolfram = require('wolfram-alpha');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -18,6 +20,7 @@ module.exports = {
   help: function (message) {
     message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
       + "I'm having maintenance done, so some stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+      + "`@Catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
       + "`@Catbot catfact` - Returns a random catfact.\n\n"
       + "`@Catbot goodshit` - A meme or somethin'.\n\n"
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
@@ -31,6 +34,62 @@ module.exports = {
   },
 
   generators: {
+    "!catbot alpha": function (bot, message, args) {
+      const wolfram_api_key = config.api_keys.wolfram;
+      let client = wolfram.createClient(wolfram_api_key, {
+        reinterpret: true,
+        scantimeout: 10,
+        parsetimeout: 10
+      });
+      let search = args.join(" ");
+      let queryFunction = bluebird.promisify(client.query, { context: client });
+      return queryFunction(search)
+        .then((result) => {
+          var returnMsg = "";
+          if (result.length === 0) {
+            message.channel.sendMessage(`¯\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`);
+            return;
+          }
+
+          // Check for primary text first
+          for (let pod of result) {
+            if (!!pod.subpods && pod.primary) {
+              returnMsg += `**${pod.subpods[0].text}**`;
+              break;
+            }
+          }
+
+          // If nothing, check for primary image
+          if (returnMsg.length === 0) {
+            for (let pod of result) {
+              if (!!pod.subpods && pod.primary) {
+                returnMsg = pod.subpods[0].image;
+                break;
+              }
+            }
+          }
+
+          // If nothing, string together texts
+          if (returnMsg.length === 0) {
+            for (let pod of result) {
+              if (!!pod.subpods && pod.subpods[0].text.trim().length > 0)
+                returnMsg += `* ${pod.subpods[0].text}\n\n`;
+            }
+          }
+
+          // If nothing, result is usually the second image
+          if (returnMsg.length === 0) {
+            if (!!result[1].subpods)
+              returnMsg = result[1].subpods[0].image;
+          }
+
+          // If still nothing, no result
+          if (returnMsg.length === 0)
+            returnMsg = `¯\\\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ`;
+          return message.channel.sendMessage(returnMsg);
+        });
+    },
+
     "!catbot catfact": function (bot, message, args) {
       let uri = "http://caas.steakscorp.org/api/?intro=yes";
       let options = {
@@ -42,6 +101,7 @@ module.exports = {
         return message.channel.sendMessage(body.text);
       });
     },
+
     "!catbot goodshit": function (bot, message, args) {
       message.channel.sendMessage(`👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　ｉ　ｔａｌｋ　ａｂｏｕｔ　ｒｉｇｈｔ　ｄｅｒｅ　ｂ０ｓｓ　．`);
     },
