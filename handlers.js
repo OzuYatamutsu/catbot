@@ -1,4 +1,6 @@
-﻿const config = require('./config');
+﻿const request = require('request-promise');
+
+const config = require('./config');
 const utils = require('./utils');
 
 module.exports = {
@@ -16,6 +18,7 @@ module.exports = {
   help: function (message) {
     message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
       + "I'm having maintenance done, so some stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+      + "`@Catbot catfact` - Returns a random catfact.\n\n"
       + "`@Catbot goodshit` - A meme or somethin'.\n\n"
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
       + "`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
@@ -28,6 +31,17 @@ module.exports = {
   },
 
   generators: {
+    "!catbot catfact": function (bot, message, args) {
+      let uri = "http://caas.steakscorp.org/api/?intro=yes";
+      let options = {
+        uri,
+        json: true
+      };
+
+      request(options).then((body) => {
+        return message.channel.sendMessage(body.text);
+      });
+    },
     "!catbot goodshit": function (bot, message, args) {
       message.channel.sendMessage(`👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　ｉ　ｔａｌｋ　ａｂｏｕｔ　ｒｉｇｈｔ　ｄｅｒｅ　ｂ０ｓｓ　．`);
     },
