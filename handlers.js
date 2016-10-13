@@ -2,6 +2,7 @@
 const bluebird = require('bluebird'); // Promisify node callback APIs
 const wolfram = require('wolfram-alpha');
 const googleImages = require('google-images');
+const youtubeSearch = require('youtube-search');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -29,6 +30,7 @@ module.exports = {
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
       + "`@Catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n" 
       + "`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
+      + "`@Catbot video <search>` - Finds `<search>` on YouTube.\n\n"
       + "~Jinhai =^w^="
       + "\n\n"
       + "To handle voice channels with spaces in 'em, surround the channel name with the \\` character (e.g. **!catbot say \\`meem channel\\` meems**). See https://steakscorp.org/expressions.png/ for reactions you can use for `!catbot react`."
@@ -194,6 +196,31 @@ module.exports = {
         ? `_The cat fluffles up a ${result}!_`
         : "_The cat doesn't know what to do. Try something like: `!catbot roll 6`_"
       );
+    },
+
+    "!catbot video": function (bot, message, args) {
+      const undefinedVideo = "https://www.youtube.com/watch?v=undefined";
+      let search = args.join(" ");
+      let opts = {
+        maxResults: 5,
+        key: config.api_keys.google_api
+      };
+      let searchFunction = bluebird.promisify(youtubeSearch);
+
+      return searchFunction(search, opts)
+        .then((result) => {
+          let index = 0;
+          while (index > result.length
+            || !result[index]
+            || result[index].link === undefinedVideo
+            || result[index].link.indexOf("/channel/") !== -1
+          ) {
+            index++;
+          }
+          if (index !== result.length)
+            return message.channel.sendMessage(result[index].link);
+          else return message.channel.sendMessage(`Couldn't find da V I D E O  b0ss =ಠ_ಥ=`);
+      });
     },
 
     "!catbot _admin chat": function (bot, message, args) {
