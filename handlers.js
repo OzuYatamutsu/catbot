@@ -23,6 +23,7 @@ module.exports = {
       + "`@Catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"  
       + "`@Catbot catfact` - Returns a random catfact.\n\n"
       + "`@Catbot goodshit` - A meme or somethin'.\n\n"
+      + "`@Catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
       + "`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
       + "~Jinhai =^w^="
@@ -104,6 +105,21 @@ module.exports = {
 
     "!catbot goodshit": function (bot, message, args) {
       message.channel.sendMessage(`👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　ｉ　ｔａｌｋ　ａｂｏｕｔ　ｒｉｇｈｔ　ｄｅｒｅ　ｂ０ｓｓ　．`);
+    },
+
+    "!catbot identify": function (bot, message, args) {
+      let search = args.join(" ");
+      let uri = `https://www.imageidentify.com/objects/user-26a7681f-4b48-4f71-8f9f-93030898d70d/prd/urlapi?image=${search}`;
+      let options = {
+        uri,
+        json: true
+      };
+
+      return request(options)
+        .then((body) => {
+          if (!body.identify || !body.identify.title) return Promise.resolve(`arr, dun knｏｗ　ｗｔｆ　ｉｓ　ｔｈａｔ　ｓｏｎ =｀ェ´=`);
+          message.channel.sendMessage(`That looks like **${body.identify.title}** to me, myan!`);
+        });
     },
 
     "!catbot pet": function (bot, message, args) {
