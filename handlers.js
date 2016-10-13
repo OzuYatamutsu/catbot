@@ -27,6 +27,7 @@ module.exports = {
       + "`@Catbot identify <image_link>` - Tries to tell you what your picture is!\n\n"
       + "`@Catbot img <search>` - Finds `<search>` on Google Images.\n\n"
       + "`@Catbot pet` - Pets the ket. ='w'=\n\n"
+      + "`@Catbot react <search>` - Searches for the closest reaction called `<search>`.\n\n" 
       + "`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.\n\n"
       + "~Jinhai =^w^="
       + "\n\n"
@@ -140,6 +141,43 @@ module.exports = {
 
     "!catbot pet": function (bot, message, args) {
       message.channel.sendMessage(`=´ω｀=`);
+    },
+
+    "!catbot react": function (bot, message, args) {
+      let search = args.join(" ");
+      if (search.length === 0) search = "cat";
+      return request("http://steakscorp.org/other/expression-machine.php")
+        .then((body) => {
+          const items = body.split('<br />');
+
+          // Exact matches first
+          for (var item of items) {
+            var ext = '';
+            if (item.indexOf('.') !== -1) {
+              item = item.split('.');
+              ext = item[item.length - 1] ? `.${item[item.length - 1]}` : '';
+              item = item.slice(0, item.length - 1).join('.');
+            }
+
+            if (utils.exactMatchWithMangling(search, item)) {
+              message.channel.sendMessage(`http://steakscorp.org/expressions.png/${item}${ext}`);
+              return;
+            }
+          }
+
+          // Then fuzzy
+          for (var item of items) {
+            if (utils.fuzzyMatchWithMangling(search, item)) {
+              message.channel.sendMessage(`http://steakscorp.org/expressions.png/${item}${ext}`);
+              return;
+            }
+          }
+
+          message.channel.sendMessage(`No reaction on Steakscorp matched search term \`${search}\`, b0ss!`);
+        })
+        .catch((err) => {
+          message.channel.sendMessage(`ERROR! ${err}`);
+        });
     },
 
     "!catbot roll": function (bot, message, args) {
