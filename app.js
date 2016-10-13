@@ -21,9 +21,9 @@ bot.on('ready', _ => {
 });
 
 bot.on('message', message => {
-  if (message.content.indexOf(bot.user.id) !== -1) {
+  if (message.content.indexOf(bot.user.id) !== -1 || message.content.indexOf("salmon") !== -1) {
     console.log(`[mention] ${message.author.username}: ${message.content}`);
     handlers.route(bot, message);
-  }  
+  }
 });
 
