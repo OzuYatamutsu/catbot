@@ -12,5 +12,25 @@
     }
 
     return null;
+  },
+  exactMatchWithMangling: function (needle, haystack) {
+    haystack = haystack
+      .toLowerCase()
+      .replace(/ /g, '_');
+    needle = needle
+      .toLowerCase()
+      .replace(/ /g, '_');
+
+    return haystack === needle;
+  },
+  fuzzyMatchWithMangling: function (needle, haystack) {
+    haystack = haystack
+      .toLowerCase()
+      .replace(/ /g, '_');
+    needle = needle
+      .toLowerCase()
+      .replace(/ /g, '_');
+
+    return haystack.indexOf(needle) !== -1;
   }
 }
