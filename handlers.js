@@ -14,6 +14,9 @@ const specialUserChance = 0.2; // 20% chance of triggering a special response
 var randInt = utils.randInt;
 var randItem = utils.randomItem;
 
+// Global options
+var streamOptions = { seek: 0, volume: 1 };
+
 module.exports = {
   route: function (bot, message) {
     let content = message.content.replace(`<@${bot.user.id}>`, '!catbot');
@@ -151,7 +154,7 @@ module.exports = {
       }
 
       let searchChannel = args[0];
-      let tts = args.slice(1, args.length).join(" ");
+      let toPlay = args.slice(1, args.length).join(" ");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
       if (match == null) {
         message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
@@ -163,8 +166,7 @@ module.exports = {
         .then(connection => {
           message.channel.sendMessage(`♫ Now playing... =-w-= ♫`);
 
-          const stream = ytdl('https://www.youtube.com/watch?v=XAWgeLF9EVQ', { filter: 'audioonly' });
-          const streamOptions = { seek: 0, volume: 1 };
+          const stream = ytdl(toPlay, { filter: 'audioonly' });
           const dispatcher = connection.playStream(stream, streamOptions);
         })
         .catch((err) => {
@@ -222,13 +224,13 @@ module.exports = {
 
       message.channel.sendMessage(result !== null
         ? `_The cat fluffles up a ${result}!_`
-        : "_The cat doesn't know what to do. Try something like: `!catbot roll 6`_"
+        : "_The cat doesn't know what to do. Try something like: `@Catbot roll 6`_"
       );
     },
 
     "!catbot say": function (bot, message, args) {
       if (args.length < 2) {
-        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `!catbot say general myon`_");
+        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `@Catbot say general myon`_");
         return;
       }
 
@@ -285,6 +287,17 @@ module.exports = {
       });
     },
 
+    "!catbot volume": function (bot, message, args) {
+      let level = args[0].replace("%", "");
+      if (args.length != 1 || isNaN(parseFloat(level)) || parseFloat(level) < 0 || parseFloat(level) > 100) {
+        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `@Catbot volume 50%`_");
+        return;
+      }
+
+      streamOptions.volume = parseFloat(level) / 100;
+      message.channel.sendMessage(`Got it, myan! Queuing volume change to ${parseFloat(level)}%. \n_This won't take effect until the next voice channel command!_`);
+    },
+
     // HIDDEN
     "!catbot _admin chat": function (bot, message, args) {
       let admins = config.admins;
@@ -304,10 +317,11 @@ module.exports = {
     "help": function (bot, message, args) {
       message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
         + "**Voice channels**\n"
-        + "I'm having maintenance done, so some voice channel stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+        + "I'm having maintenance done, so some voice channel stuff (@Catbot say, @Catbot play for SoundCloud) isn't available right now, sorry :c `<apologetic sparks>`\n\n"
         + "`@Catbot play <voice_channel> <youtube_or_soundcloud_link>` - Plays a YouTube video or SoundCloud link in `<voice_channel>`.\n\n"
       // + "`@Catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
         + "`@Catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
+        + "`@Catbot volume <percentage>` - Sets Catbot's audio volume across all voice channels.\n\n"
         + "**Text channels**\n"
         + "`@Catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"
         + "`@Catbot catfact` - Returns a random catfact.\n\n"
@@ -320,7 +334,7 @@ module.exports = {
         + "`@Catbot video <search>` - Finds `<search>` on YouTube.\n\n"
         + "~Jinhai =^w^="
         + "\n\n"
-        + "To handle voice channels with spaces in 'em, surround the channel name with the \\` character (e.g. **!catbot say \\`meem channel\\` meems**). See https://steakscorp.org/expressions.png/ for reactions you can use for `!catbot react`."
+        + "To handle voice channels with spaces in 'em, surround the channel name with the \\` character (e.g. **@Catbot say \\`meem channel\\` meems**). See https://steakscorp.org/expressions.png/ for reactions you can use for `@Catbot react`."
         + "\n"
         + "**...and more! Talk to your ket! =´∇｀=**"
       );
