@@ -21,7 +21,7 @@
     "google-tts-api": "*",
     "request-promise": "*",
     "wolfram-alpha": "*",
-    "youtube-audio-stream": "*",
-    "youtube-search": "*"
+    "youtube-search": "*",
+    "ytdl-core": "^0.7.18"
   }
 }

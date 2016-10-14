@@ -32,5 +32,17 @@
       .replace(/ /g, '_');
 
     return haystack.indexOf(needle) !== -1;
+  },
+  findMatchingVoiceChannel: function (bot, message, targetVoiceChannel) {
+    return bot.channels.filter(
+      channel => channel.type == "voice"
+        && message.channel.guild != null
+        && channel.guild != null
+        && message.channel.guild.id === channel.guild.id
+    ).find(
+      channel =>
+        channel.name.toLowerCase() === targetVoiceChannel.toLowerCase()
+        || channel.id === targetVoiceChannel
+      );
   }
 }

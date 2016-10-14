@@ -3,6 +3,7 @@ const bluebird = require('bluebird'); // Promisify node callback APIs
 const wolfram = require('wolfram-alpha');
 const googleImages = require('google-images');
 const youtubeSearch = require('youtube-search');
+const ytdl = require('ytdl-core');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -143,6 +144,35 @@ module.exports = {
       message.channel.sendMessage(`=´ω｀=`);
     },
 
+    "!catbot play": function (bot, message, args) {
+      if (args.length != 2) {
+        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `!catbot play general <youtube_or_soundcloud_link>`_");
+        return;
+      }
+
+      let searchChannel = args[0];
+      let tts = args.slice(1, args.length).join(" ");
+      var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
+      if (match == null) {
+        message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
+        return;
+      }
+
+      message.channel.sendMessage(`One sec, myan! Prepping the stream...`);
+      match.join()
+        .then(connection => {
+          message.channel.sendMessage(`♫ Now playing... =-w-= ♫`);
+
+          const stream = ytdl('https://www.youtube.com/watch?v=XAWgeLF9EVQ', { filter: 'audioonly' });
+          const streamOptions = { seek: 0, volume: 1 };
+          const dispatcher = connection.playStream(stream, streamOptions);
+        })
+        .catch((err) => {
+          message.channel.sendMessage("Couldn't play the link. :c\n Is it region-locked or private??");
+          console.log(err);
+        });
+    },
+
     "!catbot react": function (bot, message, args) {
       let search = args.join(" ");
       if (search.length === 0) search = "cat";
@@ -196,6 +226,40 @@ module.exports = {
       );
     },
 
+    "!catbot say": function (bot, message, args) {
+      if (args.length < 2) {
+        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `!catbot say general myon`_");
+        return;
+      }
+
+      let searchChannel = args[0];
+      let tts = args.slice(1, args.length).join(" ");
+      var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
+      if (match == null) {
+        message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
+        return;
+      }
+      // TODO
+      //match.sendTTSMessage(tts);
+    },
+
+    // Copied from !catbot stop
+    "!catbot shut up": function (bot, message, args) {
+      for (let voiceChannel of bot.voiceConnections.array()) {
+        voiceChannel.disconnect();
+      }
+
+      message.channel.sendMessage("Okay :c");
+    },
+
+    "!catbot stop": function (bot, message, args) {
+      for (let voiceChannel of bot.voiceConnections.array()) {
+        voiceChannel.disconnect();
+      }
+
+      message.channel.sendMessage("Okay :c");
+    },
+
     "!catbot video": function (bot, message, args) {
       const undefinedVideo = "https://www.youtube.com/watch?v=undefined";
       let search = args.join(" ");
@@ -240,7 +304,10 @@ module.exports = {
     "help": function (bot, message, args) {
       message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
         + "**Voice channels**\n"
-        + "I'm having maintenance done, so voice stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+        + "I'm having maintenance done, so some voice channel stuff isn't available right now, sorry :c `<apologetic sparks>`\n\n"
+        + "`@Catbot play <voice_channel> <youtube_or_soundcloud_link>` - Plays a YouTube video or SoundCloud link in `<voice_channel>`.\n\n"
+      // + "`@Catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
+        + "`@Catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
         + "**Text channels**\n"
         + "`@Catbot alpha <search>` - Interprets `<search>` and gives you an answer (Wolfram|Alpha).\n\n"
         + "`@Catbot catfact` - Returns a random catfact.\n\n"
