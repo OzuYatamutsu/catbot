@@ -154,6 +154,7 @@ module.exports = {
         return;
       }
 
+      const soundcloud_id = config.api_keys.soundcloud;
       let searchChannel = args[0];
       let toPlay = args.slice(1, args.length).join(" ");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
