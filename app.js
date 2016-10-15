@@ -21,9 +21,15 @@ bot.on('ready', _ => {
 });
 
 bot.on('message', message => {
-  if (message.content.indexOf(bot.user.id) !== -1 || message.content.indexOf("salmon") !== -1) {
+  if (isMatch(bot, message)) {
     console.log(`[mention] ${message.author.username}: ${message.content}`);
     handlers.route(bot, message);
   }
 });
 
+function isMatch(bot, message) {
+  return message.content.indexOf(bot.user.id) !== -1 
+  || message.content.toLowerCase().indexOf("salmon") !== -1 
+  || message.content.toLowerCase().indexOf("!catbot") !== -1
+  || message.content.toLowerCase().indexOf("@catbot") !== -1
+}
