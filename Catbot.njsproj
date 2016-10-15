@@ -39,6 +39,7 @@
     <Folder Include="typings\globals\babel-traverse\" />
     <Folder Include="typings\globals\babel-types\" />
     <Folder Include="typings\globals\babylon\" />
+    <Folder Include="typings\globals\bluebird\" />
     <Folder Include="typings\globals\chalk\" />
     <Folder Include="typings\globals\commander\" />
     <Folder Include="typings\globals\core-js\" />
@@ -56,6 +57,7 @@
     <TypeScriptCompile Include="typings\globals\babel-traverse\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\babel-types\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\babylon\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\bluebird\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\chalk\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\commander\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\core-js\index.d.ts" />

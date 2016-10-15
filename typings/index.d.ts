@@ -2,6 +2,7 @@
 /// <reference path="globals/babel-traverse/index.d.ts" />
 /// <reference path="globals/babel-types/index.d.ts" />
 /// <reference path="globals/babylon/index.d.ts" />
+/// <reference path="globals/bluebird/index.d.ts" />
 /// <reference path="globals/chalk/index.d.ts" />
 /// <reference path="globals/commander/index.d.ts" />
 /// <reference path="globals/core-js/index.d.ts" />

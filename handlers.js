@@ -199,10 +199,20 @@ module.exports = {
       }
 
       let searchChannel = args[0];
+      if (args[0].indexOf("`") !== -1) {
+        searchChannel = args.join(" ").split('`')[1];
+        args = args.join(" ")
+          .replace(searchChannel, "TOKEN_CHANNEL")
+          .split(" ");
+      }
       let toPlay = args.slice(1, args.length).join(" ");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
       if (match == null) {
-        message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
+        message.channel.sendMessage(
+          `\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!\n`
+          + "Does your voice channel have spaces in it? Use backticks! For example:\n"
+          + "```@Catbot say `bad ghostie corner` meems```"
+        );
         return;
       }
 
@@ -284,10 +294,20 @@ module.exports = {
       }
 
       let searchChannel = args[0];
+      if (args[0].indexOf("`") !== -1) {
+        searchChannel = args.join(" ").split('`')[1];
+        args = args.join(" ")
+          .replace(searchChannel, "TOKEN_CHANNEL")
+          .split(" ");
+      }
       let tts = args.slice(1, args.length).join(" ");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
       if (match == null) {
-        message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
+        message.channel.sendMessage(
+          `\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!\n`
+          + "Does your voice channel have spaces in it? Use backticks! For example:\n"
+          + "```@Catbot say `bad ghostie corner` meems```"
+        );
         return;
       }
 
@@ -300,7 +320,7 @@ module.exports = {
                   const dispatcher = connection.playStream(request(url), streamOptions);
                 })
                 .catch((err) => {
-                  message.channel.sendMessage("Couldn't play the link. :c\n Is it region-locked or private??");
+                  message.channel.sendMessage("Couldn't speak. :c\n Am I allowed to talk in there?");
                   console.log(err);
                 });
             })
