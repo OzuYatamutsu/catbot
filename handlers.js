@@ -339,7 +339,7 @@ module.exports = {
         + "**Voice channels**\n"
         + "I'm having maintenance done, so some voice channel stuff (@Catbot say, @Catbot play for SoundCloud) isn't available right now, sorry :c `<apologetic sparks>`\n\n"
         + "`@Catbot play <voice_channel> <youtube_or_soundcloud_link>` - Plays a YouTube video or SoundCloud link in `<voice_channel>`.\n\n"
-      // + "`@Catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
+        + "`@Catbot say <voice_channel> <text>` - Speaks `<text>` in `<voice_channel>`.\n\n"
         + "`@Catbot stop` - Makes Catbot stop playing audio in voice channels.\n\n"
         + "`@Catbot volume <percentage>` - Sets Catbot's audio volume across all voice channels.\n\n"
         + "**Text channels**\n"
