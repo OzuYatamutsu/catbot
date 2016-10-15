@@ -4,6 +4,7 @@ const wolfram = require('wolfram-alpha');
 const googleImages = require('google-images');
 const youtubeSearch = require('youtube-search');
 const ytdl = require('ytdl-core');
+const googleTTS = require('google-tts-api');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -241,8 +242,27 @@ module.exports = {
         message.channel.sendMessage(`\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!`);
         return;
       }
-      // TODO
-      //match.sendTTSMessage(tts);
+
+      googleTTS(tts, 'en', 1)
+        .then((url) => {
+          request({ uri: url, simple: true, method: 'HEAD' })
+            .on('response', _ => {
+              match.join()
+                .then(connection => {
+                  const dispatcher = connection.playStream(request(url), streamOptions);
+                })
+                .catch((err) => {
+                  message.channel.sendMessage("Couldn't play the link. :c\n Is it region-locked or private??");
+                  console.log(err);
+                });
+            })
+            .catch((e) => {
+              args.bot.sendMessage({
+                to: args.channelId,
+                message: `That's a mouthful, myan. Try feedin' me less words to say!`
+              });
+            });
+        });
     },
 
     // Copied from !catbot stop
