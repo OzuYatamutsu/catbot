@@ -37,6 +37,50 @@ module.exports = {
       message.channel.sendMessage(randItem(personality.responses));
   },
 
+  doSoundCloud: function (bot, message, link, targetChannel) {
+    const soundcloud_id = config.api_keys.soundcloud;
+    const uri = `https://api.soundcloud.com/resolve.json?url=${link}&client_id=${soundcloud_id}`;
+    let options = {
+      uri,
+      json: true
+    };
+
+    request(options)
+      .then((body) => {
+        const track_id = body.id;
+        var stream_uri = `https://api.soundcloud.com/tracks/${track_id}/download?client_id=${soundcloud_id}`;
+        try {
+          request.head(stream_uri)
+            .then((response) => {
+              targetChannel.join()
+                .then(connection => {
+                  message.channel.sendMessage(`♫ Now playing... =-w-= ♫`);
+                  const dispatcher = connection.playStream(request(stream_uri), streamOptions);
+                })
+            })
+            .catch((err) => {
+              const circumvent_uri = `https://api.soundcloud.com/i1/tracks/${track_id}/streams?client_id=${soundcloud_id}&app_version=1467724310`;
+              let uri_options = {
+                uri: circumvent_uri,
+                json: true
+              };
+
+              request(uri_options)
+                .then((body) => {
+                  targetChannel.join()
+                    .then(connection => {
+                      message.channel.sendMessage(`♫ Now playing... =-w-= ♫`);
+                      const dispatcher = connection.playStream(request(body.http_mp3_128_url), streamOptions);
+                    })
+                });
+            });
+        } catch (err) {
+          console.log(`[soundcloud] Error: ${err}`);
+          message.channel.sendMessage(`\`${link}\` doesn't have a song I can play, b0ss!`);
+        }
+      });
+  },
+
   generators: {
     "!catbot alpha": function (bot, message, args) {
       const wolfram_api_key = config.api_keys.wolfram;
@@ -154,7 +198,6 @@ module.exports = {
         return;
       }
 
-      const soundcloud_id = config.api_keys.soundcloud;
       let searchChannel = args[0];
       let toPlay = args.slice(1, args.length).join(" ");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
@@ -164,6 +207,10 @@ module.exports = {
       }
 
       message.channel.sendMessage(`One sec, myan! Prepping the stream...`);
+      if (toPlay.indexOf("soundcloud.com") !== -1) {
+        module.exports.doSoundCloud(bot, message, toPlay, match);
+        return;
+      }
       match.join()
         .then(connection => {
           message.channel.sendMessage(`♫ Now playing... =-w-= ♫`);
