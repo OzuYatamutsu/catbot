@@ -1,5 +1,5 @@
 {
-  "personality": "qa",
+  "personality": "default",
   "token": "MTkwNjg5NjQ1MDUzNDc2ODY0.CjxV0g.K1cjm9xX5fTdLoEC6i2F6aWqvlw",
   "api_keys": {
     "google_api": "AIzaSyAxhbuxIBORj6IQv53de76fb8V-BO9IsrE",
