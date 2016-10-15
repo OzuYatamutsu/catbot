@@ -1,6 +1,6 @@
 {
   "name": "catbot",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "description": "Cat-related Discord bot for great good. ",
   "main": "index.js",
   "scripts": {
