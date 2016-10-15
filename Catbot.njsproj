@@ -26,9 +26,6 @@
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Compile Include="bot_utils.js" />
-    <Compile Include="generators.js" />
-    <Compile Include="index.js" />
-    <Compile Include="message-handler.js" />
     <Compile Include="gpp\catbot_md.js" />
     <Compile Include="gpp\catbot_monkey.js" />
     <Compile Include="gpp\default.js" />
