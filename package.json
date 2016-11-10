@@ -17,12 +17,13 @@
   },
     "dependencies": {
         "bluebird": "^3.4.6",
-        "discord.js": "^9.3.0",
+        "discord.js": "^10.0.1",
         "google-images": "^2.0.0",
         "google-tts-api": "^0.0.1",
+        "opusscript": "^0.0.1",
         "request-promise": "^4.1.1",
         "wolfram-alpha": "^0.5.0",
         "youtube-search": "^1.0.6",
-        "ytdl-core": "^0.7.18"
+        "ytdl-core": "^0.7.19"
     }
 }

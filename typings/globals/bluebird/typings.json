@@ -1,8 +1,8 @@
 {
   "resolution": "main",
   "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a4a33e265cf12ce775a9a0e54897fdabf2f6b3ce/bluebird/bluebird.d.ts",
-    "raw": "registry:dt/bluebird#3.0.0+20160928162057",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a4a33e265cf12ce775a9a0e54897fdabf2f6b3ce/bluebird/bluebird.d.ts"
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/82e9f897d6aeda0dad38be9a6cff35ff421d60ca/bluebird/bluebird.d.ts",
+    "raw": "registry:dt/bluebird#3.0.0+20161007114152",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/82e9f897d6aeda0dad38be9a6cff35ff421d60ca/bluebird/bluebird.d.ts"
   }
 }
