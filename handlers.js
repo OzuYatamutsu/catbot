@@ -288,6 +288,8 @@ module.exports = {
     },
 
     "!catbot say": function (bot, message, args) {
+      const base_uri = "http://tts.baidu.com/text2audio?lan=zh&pid=101&ie=UTF-8&text=";
+
       if (args.length < 2) {
         message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `@Catbot say general myon`_");
         return;
@@ -310,27 +312,25 @@ module.exports = {
         );
         return;
       }
-
-      googleTTS(tts, 'en', 1)
-        .then((url) => {
-          request({ uri: url, simple: true, method: 'HEAD' })
-            .on('response', _ => {
-              match.join()
-                .then(connection => {
-                  const dispatcher = connection.playStream(request(url), streamOptions);
-                })
-                .catch((err) => {
-                  message.channel.sendMessage("Couldn't speak. :c\n Am I allowed to talk in there?");
-                  console.log(err);
-                });
-            })
-            .catch((e) => {
-              args.bot.sendMessage({
-                to: args.channelId,
-                message: `That's a mouthful, myan. Try feedin' me less words to say!`
-              });
-            });
+      request({ 
+        uri: `${base_uri}${tts}`,
+        simple: true, method: 'HEAD'
+      }).on('response', _ => {
+        match.join()
+          .then(connection => {
+            console.log("DEBUG");
+            const dispatcher = connection.playStream(request(`${base_uri}${tts}`), streamOptions);
+          })
+          .catch((err) => {
+            message.channel.sendMessage("Couldn't speak. :c\n Am I allowed to talk in there?");
+            console.log(err);
+          });
+      }).catch((e) => {
+        args.bot.sendMessage({
+          to: args.channelId,
+          message: `That's a mouthful, myan. Try feedin' me less words to say!`
         });
+      });
     },
 
     // Copied from !catbot stop
