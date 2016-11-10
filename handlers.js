@@ -302,7 +302,7 @@ module.exports = {
           .replace(searchChannel, "TOKEN_CHANNEL")
           .split(" ");
       }
-      let tts = args.slice(1, args.length).join(" ");
+      let tts = args.slice(1, args.length).join(" ").replace(" ", "%20");
       var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
       if (match == null) {
         message.channel.sendMessage(
@@ -318,7 +318,7 @@ module.exports = {
       }).on('response', _ => {
         match.join()
           .then(connection => {
-            console.log("DEBUG");
+            // BUG: discord.js fails to play < 1 sec files (#729)
             const dispatcher = connection.playStream(request(`${base_uri}${tts}`), streamOptions);
           })
           .catch((err) => {
