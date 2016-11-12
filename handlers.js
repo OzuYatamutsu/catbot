@@ -401,6 +401,36 @@ module.exports = {
         .find('id', target_channel_id)
         .sendMessage(text);
     },
+    "!catbot _admin join_v": function (bot, message, args) {
+      let admins = config.admins;
+      let author = message.author.id;
+      let target_channel_id = args[0];
+      let text = args.slice(1, args.length).join(" ");
+
+      // If the person is not an admin, silently fail
+      if (admins.indexOf(author) === -1)
+        return;
+
+      let searchChannel = args[0];
+      if (args[0].indexOf("`") !== -1) {
+        searchChannel = args.join(" ").split('`')[1];
+        args = args.join(" ")
+          .replace(searchChannel, "TOKEN_CHANNEL")
+          .split(" ");
+      }
+
+      var match = utils.findMatchingVoiceChannel(bot, message, searchChannel);
+      if (match == null) {
+        message.channel.sendMessage(
+          `\`${searchChannel}\` doesn't exist or isn't a voice channel, myan!\n`
+          + "Does your voice channel have spaces in it? Use backticks! For example:\n"
+          + "```@Catbot say `bad ghostie corner` meems```"
+        );
+        return;
+      }
+
+      match.join();
+    },
 
     "help": function (bot, message, args) {
       message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
