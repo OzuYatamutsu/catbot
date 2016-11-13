@@ -194,7 +194,7 @@ module.exports = {
 
     "!catbot play": function (bot, message, args) {
       if (args.length != 2) {
-        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `!catbot play general <youtube_or_soundcloud_link>`_");
+        message.channel.sendMessage("_The cat doesn't know what to do._\nTry something like: `!catbot play general <youtube_or_soundcloud_link>`");
         return;
       }
 
@@ -283,7 +283,7 @@ module.exports = {
 
       message.channel.sendMessage(result !== null
         ? `_The cat fluffles up a ${result}!_`
-        : "_The cat doesn't know what to do. Try something like: `@Catbot roll 6`_"
+        : "_The cat doesn't know what to do._\nTry something like: `@Catbot roll 6`"
       );
     },
 
@@ -291,7 +291,7 @@ module.exports = {
       const base_uri = "http://tts.baidu.com/text2audio?lan=zh&pid=101&ie=UTF-8&text=";
 
       if (args.length < 2) {
-        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `@Catbot say general myon`_");
+        message.channel.sendMessage("_The cat doesn't know what to do._\nTry something like: `@Catbot say general myon`");
         return;
       }
 
@@ -378,7 +378,7 @@ module.exports = {
     "!catbot volume": function (bot, message, args) {
       let level = args[0].replace("%", "");
       if (args.length != 1 || isNaN(parseFloat(level)) || parseFloat(level) < 0 || parseFloat(level) > 100) {
-        message.channel.sendMessage("_The cat doesn't know what to do. Try something like: `@Catbot volume 50%`_");
+        message.channel.sendMessage("_The cat doesn't know what to do._\nTry something like: `@Catbot volume 50%`");
         return;
       }
 
