@@ -19,7 +19,7 @@ module.exports = {
   },
   changeStatus: function (bot, newStatus) {
     bot.user
-      .setStatus("online", newStatus)
+      .setGame(newStatus)
       .catch(console.log);
   }
 }
