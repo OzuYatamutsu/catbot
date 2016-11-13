@@ -9,7 +9,7 @@ const googleTTS = require('google-tts-api');
 const config = require('./config');
 const utils = require('./utils');
 const personality = require(`./gpp/${config.personality}`);
-const specialUserChance = 0.2; // 20% chance of triggering a special response
+const specialUserChance = 0.1; // 10% chance of triggering a special response
 
 // Import these as var so that they're actually random
 var randInt = utils.randInt;
