@@ -21,6 +21,11 @@ bot.on('ready', _ => {
 });
 
 bot.on('message', message => {
+  if (message.author.id === bot.user.id) {
+    // Don't reply to yourself
+    return;
+  }
+
   if (isMatch(bot, message)) {
     console.log(`[mention] ${message.author.username}: ${message.content}`);
     handlers.route(bot, message);

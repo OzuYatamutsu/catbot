@@ -7,8 +7,10 @@
   },
   findSubstrInStringTable: function (haystack, needle) {
     for (let i = 0; i < Object.keys(haystack).length; i++) {
-      if (needle.indexOf(Object.keys(haystack)[i]) !== -1)
-        return Object.keys(haystack)[i];
+      if (needle.indexOf(Object.keys(haystack)[i]) !== -1) {
+        if (this.arrayIsSubset(needle.split(" "), Object.keys(haystack)[i].split(" ")))
+          return Object.keys(haystack)[i];
+      }  
     }
 
     return null;
@@ -44,5 +46,10 @@
         channel.name.toLowerCase() === targetVoiceChannel.toLowerCase()
         || channel.id === targetVoiceChannel
       );
+  },
+  arrayIsSubset: function (arr1, arr2) {
+    return JSON.stringify(arr1).indexOf(
+      JSON.stringify(arr2).replace("]", "")
+    ) !== -1;
   }
 }
