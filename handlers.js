@@ -17,6 +17,7 @@ var randItem = utils.randomItem;
 
 // Global options
 var streamOptions = { seek: 0, volume: 1 };
+var willReply = true;
 
 module.exports = {
   route: function (bot, message) {
@@ -24,9 +25,9 @@ module.exports = {
     let target = utils.findSubstrInStringTable(this.generators, content);
     let args = content.replace(target, "").trim().split(" ");
 
-    if (!target)
+    if (!target && willReply)
       this.cat_response(bot, message, args);
-    else
+    else if (!!target)
       this.generators[target](bot, message, args);
   },
 
@@ -430,6 +431,19 @@ module.exports = {
       }
 
       match.join();
+    },
+    "!catbot _admin t_reply": function (bot, message, args) {
+      let admins = config.admins;
+      let author = message.author.id;
+      let text = args.slice(1, args.length).join(" ");
+
+      // If the person is not an admin, silently fail
+      if (admins.indexOf(author) === -1)
+        return;
+
+      // Toggle generic bot reply state
+      willReply = !willReply;
+      message.channel.sendMessage(`Reply state is now ${willReply}, myan!`);
     },
 
     "help": function (bot, message, args) {
