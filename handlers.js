@@ -446,7 +446,7 @@ module.exports = {
       message.channel.sendMessage(`Reply state is now ${willReply}, myan!`);
     },
 
-    "help": function (bot, message, args) {
+    "!catbot help": function (bot, message, args) {
       message.channel.sendMessage(`_ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=_ \n \n`
         + "**Voice channels**\n"
         + "`@Catbot play <voice_channel> <youtube_or_soundcloud_link>` - Plays a YouTube video or SoundCloud link in `<voice_channel>`.\n\n"
