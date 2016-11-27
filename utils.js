@@ -6,9 +6,11 @@
     return Math.floor(Math.random() * (max - min + 1) + min);
   },
   findSubstrInStringTable: function (haystack, needle) {
+    needle = needle.toLowerCase();
+     
     for (let i = 0; i < Object.keys(haystack).length; i++) {
-      if (needle.indexOf(Object.keys(haystack)[i]) !== -1) {
-        if (this.arrayIsSubset(needle.split(" "), Object.keys(haystack)[i].split(" ")))
+      if (needle.indexOf(Object.keys(haystack)[i].toLowerCase()) !== -1) {
+        if (this.arrayIsSubset(needle.toLowerCase().split(" "), Object.keys(haystack)[i].toLowerCase().split(" ")))
           return Object.keys(haystack)[i];
       }  
     }
