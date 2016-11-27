@@ -22,9 +22,10 @@ var willReply = true;
 module.exports = {
   route: function (bot, message) {
     let content = message.content.replace(`<@${bot.user.id}>`, '!catbot');
-    let target = utils.findSubstrInStringTable(this.generators, content);
-    let args = content.replace(target, "").trim().split(" ");
-
+    let target = utils.findSubstrInStringTable(this.generators, content).toLowerCase();
+    let targetRegex = new RegExp(target, "gi"); // Case insensitive find-and-replace
+    let args = content.replace(targetRegex, "").trim().split(" ");
+    
     if (!target && willReply)
       this.cat_response(bot, message, args);
     else if (!!target)
