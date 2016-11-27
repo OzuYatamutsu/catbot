@@ -22,7 +22,7 @@ var willReply = true;
 module.exports = {
   route: function (bot, message) {
     let content = message.content.replace(`<@${bot.user.id}>`, '!catbot');
-    let target = utils.findSubstrInStringTable(this.generators, content).toLowerCase();
+    let target = utils.findSubstrInStringTable(this.generators, content);
     let targetRegex = new RegExp(target, "gi"); // Case insensitive find-and-replace
     let args = content.replace(targetRegex, "").trim().split(" ");
     
