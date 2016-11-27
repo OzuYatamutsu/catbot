@@ -276,11 +276,11 @@ module.exports = {
     "!catbot roll": function (bot, message, args) {
       let range = args.map(Number);
       let result = null;
-      if (range.length >= 1 && !isNaN(range[0])) {
+      if (range.length >= 1 && !isNaN(range[0]) && range[0] > 0) {
         if (range.length >= 2 && !isNaN(range[1]))
           result = randInt(range[0], range[1]);
         else
-          result = randInt(0, range[0]);
+          result = randInt(1, range[0]);
       }
 
       message.channel.sendMessage(result !== null
