@@ -290,7 +290,7 @@ module.exports = {
     },
 
     "!catbot say": function (bot, message, args) {
-      const base_uri = "http://www.voicerss.org/controls/speech.ashx?hl=ja-jp&c=mp3&rnd=0.7701178397163847&src=";
+      const base_uri = "http://www.voicerss.org/controls/speech.ashx?hl=en-au&c=mp3&rnd=0.7701178397163847&src=";
 
       if (args.length < 2) {
         message.channel.sendMessage("_The cat doesn't know what to do._\nTry something like: `@Catbot say general myon`");
