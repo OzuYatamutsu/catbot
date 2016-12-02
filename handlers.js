@@ -290,7 +290,7 @@ module.exports = {
     },
 
     "!catbot say": function (bot, message, args) {
-      const base_uri = "http://tts.baidu.com/text2audio?lan=zh&pid=101&ie=UTF-8&text=";
+      const base_uri = "http://www.voicerss.org/controls/speech.ashx?hl=ja-jp&c=mp3&rnd=0.7701178397163847&src=";
 
       if (args.length < 2) {
         message.channel.sendMessage("_The cat doesn't know what to do._\nTry something like: `@Catbot say general myon`");
@@ -321,14 +321,14 @@ module.exports = {
         match.join()
           .then(connection => {
             // BUG: discord.js fails to play < 1 sec files (#729)
-            const dispatcher = connection.playStream(request(`${base_uri}${tts}`), streamOptions);
+            const dispatcher = connection.playStream(request(`${base_uri}${tts.replace(' ', '+')}`), streamOptions);
           })
           .catch((err) => {
             message.channel.sendMessage("Couldn't speak. :c\n Am I allowed to talk in there?");
             console.log(err);
           });
       }).catch((e) => {
-        args.bot.sendMessage({
+        bot.sendMessage({
           to: args.channelId,
           message: `That's a mouthful, myan. Try feedin' me less words to say!`
         });
