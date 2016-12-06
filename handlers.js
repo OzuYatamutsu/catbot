@@ -276,15 +276,23 @@ module.exports = {
     "!catbot roll": function (bot, message, args) {
       let range = args.map(Number);
       let result = null;
+      let specialMessage = ""; // On special roll values
       if (range.length >= 1 && !isNaN(range[0]) && range[0] > 0) {
         if (range.length >= 2 && !isNaN(range[1]))
           result = randInt(range[0], range[1]);
         else
           result = randInt(1, range[0]);
       }
-
+     
+      if (range.length === 1 && range[0] >= 20) {
+        if (result === 1)
+          specialMessage = "**Critical failure... :c**\n"
+        else if (result === range[0])
+          specialMessage = "**=ㅇㅅㅇ❀= THE KETTERS HAVE BLESSED YOU TODAY =ㅇㅅㅇ❀=**\n"
+      } else if (range.length === 2 && range[0] === range[1])
+        specialMessage = "_The cat rolls a one-sided dice. It looks like nothing you've ever seen._\n";
       message.channel.sendMessage(result !== null
-        ? `_The cat fluffles up a ${result}!_`
+        ? `${specialMessage}_The cat fluffles up a ${result}!_`
         : "_The cat doesn't know what to do._\nTry something like: `@Catbot roll 6`"
       );
     },
