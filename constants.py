@@ -15,3 +15,15 @@ DB_DISCORD_API_KEY_NAME = 'discord'
 DB_GOOGLE_API_KEY_NAME = 'google'
 DB_GOOGLE_IMAGES_API_KEY_NAME = 'google_images'
 DB_WOLFRAM_API_KEY_NAME = 'wolfram'
+
+BOT_HELP_TEXT = """
+_The cat starts shaking and sparking. It looks a little more unstable than usual._
+`ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=`
+
+`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.
+
+`"Talk to your ket!! =´∇｀="` - Jinhai
+The cat coughs up a piece of paper which reads: `HEAD: 87b31bd // BRANCH: v2/py-migration`
+"""
+
+BOT_ROLL_DEFAULT_MAX = 20

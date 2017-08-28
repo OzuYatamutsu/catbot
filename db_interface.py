@@ -13,21 +13,24 @@ def insert_api_key(key_type: ApiKey, value: str):
         _create_api_key_table()
 
     db = DatabaseSingleton().get_db()
-    db.execute(
+    cursor = db.cursor()
+
+    cursor.execute(
         DB_API_KEY_INSERT_QUERY, (DB_API_KEY_ENUM_TO_VALUE_MAP[key_type], value)
     )
 
     db.commit()
 
-def get_api_key(key_type: ApiKey) -> int:
+def get_api_key(key_type: ApiKey) -> str:
     """
     Returns an API key of a given type.
     """
 
     db = DatabaseSingleton().get_db()
-    db.execute(DB_GET_API_KEY, (DB_API_KEY_ENUM_TO_VALUE_MAP[key_type],))
+    cursor = db.cursor()
 
-    return db.fetchone()
+    cursor.execute(DB_GET_API_KEY, (DB_API_KEY_ENUM_TO_VALUE_MAP[key_type],))
+    return cursor.fetchone()[0]
 
 def is_admin(user_id: int) -> bool:
     """
@@ -35,9 +38,10 @@ def is_admin(user_id: int) -> bool:
     """
 
     db = DatabaseSingleton().get_db()
-    db.execute(DB_GET_ADMIN, (user_id,))
+    cursor = db.cursor()
 
-    return len(db.fetchall()) >= 1
+    cursor.execute(DB_GET_ADMIN, (user_id,))
+    return len(cursor.fetchall()) >= 1
 
 def insert_admin(user_id: int):
     """
@@ -48,7 +52,9 @@ def insert_admin(user_id: int):
         _create_admins_table()
 
     db = DatabaseSingleton().get_db()
-    db.execute(
+    cursor = db.cursor()
+
+    cursor.execute(
         DB_ADMIN_INSERT_QUERY, (user_id, )
     )
 
@@ -60,14 +66,20 @@ def does_table_exist(table_name: str) -> bool:
     """
 
     db = DatabaseSingleton().get_db()
-    return db.execute(DB_CHECK_TABLE_EXIST_QUERY, (table_name, )).fetchone() == 1
+    cursor = db.cursor()
+
+    return cursor.execute(DB_CHECK_TABLE_EXIST_QUERY, (table_name, )).fetchone() == 1
 
 def _create_api_key_table():
     db = DatabaseSingleton().get_db()
-    db.execute(DB_API_KEY_CREATE_TABLE_QUERY)
+    cursor = db.cursor()
+
+    cursor.execute(DB_API_KEY_CREATE_TABLE_QUERY)
     db.commit()
 
 def _create_admins_table():
     db = DatabaseSingleton().get_db()
-    db.execute(DB_ADMINS_CREATE_TABLE_QUERY)
+    cursor = db.cursor()
+
+    cursor.execute(DB_ADMINS_CREATE_TABLE_QUERY)
     db.commit()

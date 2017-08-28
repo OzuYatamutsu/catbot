@@ -1,5 +1,4 @@
 from constants import DATA_FILE
-from bot_handler import run_bot
 from setup import run_setup
 from os.path import isfile
 
@@ -7,4 +6,5 @@ from os.path import isfile
 if not isfile(DATA_FILE):
     run_setup()
 
-run_bot()
+# Start bot from module-level code and import handlers
+from catbot import *
