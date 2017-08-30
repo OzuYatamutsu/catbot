@@ -20,10 +20,18 @@ BOT_HELP_TEXT = """
 _The cat starts shaking and sparking. It looks a little more unstable than usual._
 `ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=`
 
-`@Catbot roll <num> [num2]` - Rolls a random number between 0 - `<num>`, or `<num>` - `[num2]`.
+@Catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).
 
-`"Talk to your ket!! =´∇｀="` - Jinhai
-The cat coughs up a piece of paper which reads: `HEAD: 87b31bd // BRANCH: v2/py-migration`
+@Catbot catfact - Returns a random catfact.
+
+@Catbot roll <num> [num2] - Rolls a random number between 0 - <num>, or <num> - [num2].
+
+@Catbot identify <image_link> - Tries to tell you what your picture looks like!
+
+@Catbot img <search> - Finds <search> on Google Images.
+
+"Talk to your ket!! =´∇｀=" - Jinhai
+The cat coughs up a piece of paper which reads: HEAD: 032bf45 // BRANCH: v2/py-migration
 """
 
 BOT_ROLL_DEFAULT_MAX = 20
