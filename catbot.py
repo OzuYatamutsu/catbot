@@ -2,11 +2,12 @@
 from discord import Game
 from discord.ext import commands
 from wolframalpha import Client
+from requests import get
 from random import randint
 from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
-from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX
+from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL
 basicConfig(level=DEBUG)
 
 # Bot client object
@@ -30,10 +31,9 @@ async def catbot_alpha(*, query: str):
         return
     await client.say('```{}```'.format(next(raw_result.results).text))
 
-@client.command(name='catfact', pass_context=True)
-async def catbot_catfact(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='catfact')
+async def catbot_catfact():
+    await client.say('```{}```'.format(get(CATFACT_URL).json()['text']))
 
 @client.command(name='goodshit', pass_context=True)
 async def catbot_goodshit(ctx):
