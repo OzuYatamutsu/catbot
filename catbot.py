@@ -1,6 +1,7 @@
 # Import this module to start Catbot.
 from discord import Game
 from discord.ext import commands
+from wolframalpha import Client
 from random import randint
 from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
@@ -19,10 +20,15 @@ async def on_ready():
 
 # COMMANDS
 
-@client.command(name='alpha', pass_context=True)
-async def catbot_alpha(ctx, param1: str):
-    message_text = param1
-    pass  # TODO
+@client.command(name='alpha')
+async def catbot_alpha(*, query: str):
+    wolfram_client = Client(get_api_key(ApiKey.WOLFRAM))
+    raw_result = wolfram_client.query(query)
+
+    if raw_result.success == 'false':
+        await client.say('¯\_(=ツ=)_/¯ Ｉ　ｄｕｎｎｏ　ｌｏｌ')
+        return
+    await client.say('```{}```'.format(next(raw_result.results).text))
 
 @client.command(name='catfact', pass_context=True)
 async def catbot_catfact(ctx):
