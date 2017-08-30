@@ -7,7 +7,7 @@ from random import randint
 from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
-from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL
+from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL
 basicConfig(level=DEBUG)
 
 # Bot client object
@@ -35,15 +35,18 @@ async def catbot_alpha(*, query: str):
 async def catbot_catfact():
     await client.say('```{}```'.format(get(CATFACT_URL).json()['text']))
 
-@client.command(name='goodshit', pass_context=True)
-async def catbot_goodshit(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='goodshit')
+async def catbot_goodshit():
+    await client.say(CATBOT_GOODSHIT_TEXT)
 
-@client.command(name='identify', pass_context=True)
-async def catbot_identify(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='identify')
+async def catbot_identify(img_url: str):
+    result = get(WOLFRAM_IDENTIFY_URL.format(img_url)).json()
+
+    if 'identify' not in result or 'title' not in result['identify']:
+        await client.say('arr, dun knｏｗ　ｗｔｆ　ｉｓ　ｔｈａｔ　ｓｏｎ =｀ェ´=')
+        return
+    await client.say('That looks like **{}**!!'.format(result['identify']['title']))
 
 @client.command(name='img', pass_context=True)
 async def catbot_img(ctx):
