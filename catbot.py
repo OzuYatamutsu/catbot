@@ -3,11 +3,13 @@ from discord import Game
 from discord.ext import commands
 from wolframalpha import Client
 from requests import get
-from random import randint
+from random import randint, randrange
 from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL
+# Change this import line to change GPP
+from gpp.catbot_monkey import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
 
 # Bot client object
@@ -15,9 +17,16 @@ client = commands.Bot(command_prefix='!catbot ')
 
 @client.event
 async def on_ready():
-    await client.edit_profile(username="Catbot_v2_testing")
-    await client.change_presence(game=Game(name="PAINFUL REPROGRAMMING MEMES"))
+    await client.edit_profile(username=NAME)
+    await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
     print('{} with id {} is ready, myan!'.format(client.user.name, client.user.id))
+
+@client.event
+async def on_message(message):
+    if client.user.id not in message.content:
+        return
+    # Catbot was mentioned
+    await client.send_message(message.channel, RESPONSES[randrange(len(PLAYING))])
 
 # COMMANDS
 
