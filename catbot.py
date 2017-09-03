@@ -9,7 +9,7 @@ from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
-    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT
+    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT
 # Change this import line to change GPP
 from gpp.catbot_monkey import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
@@ -74,10 +74,9 @@ async def catbot_img(ctx):
 async def catbot_jack_in():
     await client.say(CATBOT_JACK_IN_TEXT)
 
-@client.command(name='pet', pass_context=True)
-async def catbot_pet(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='pet')
+async def catbot_pet():
+    await client.say(CATBOT_PET_TEXT)
 
 @client.command(name='play', pass_context=True)
 async def catbot_play(ctx):

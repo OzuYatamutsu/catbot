@@ -43,3 +43,4 @@ CATBOT_GOODSHIT_TEXT = "👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏ
 WOLFRAM_IDENTIFY_URL = "https://www.imageidentify.com/objects/user-26a7681f-4b48-4f71-8f9f-93030898d70d/prd/urlapi?image={}"
 STATUS_CHANGE_TIMEOUT_SECS = 1800
 CATBOT_JACK_IN_TEXT = "http://steakscorp.org/expressions.png/Jacking_in.mp3"
+CATBOT_PET_TEXT = "=´ω｀="
