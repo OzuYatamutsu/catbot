@@ -35,3 +35,9 @@ The cat coughs up a piece of paper which reads: HEAD: 032bf45 // BRANCH: v2/py-m
 """
 
 BOT_ROLL_DEFAULT_MAX = 20
+CATFACT_URL = "http://caas.steakscorp.org/api/"
+CATBOT_GOODSHIT_TEXT = "👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　" \
+                       "ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 " \
+                       "right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　" \
+                       "ｉ　ｔａｌｋ　ａｂｏｕｔ　ｒｉｇｈｔ　ｄｅｒｅ　ｂ０ｓｓ　．"
+WOLFRAM_IDENTIFY_URL = "https://www.imageidentify.com/objects/user-26a7681f-4b48-4f71-8f9f-93030898d70d/prd/urlapi?image={}"
