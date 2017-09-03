@@ -1,4 +1,5 @@
 # Import this module to start Catbot.
+from asyncio import sleep
 from discord import Game
 from discord.ext import commands
 from wolframalpha import Client
@@ -7,7 +8,8 @@ from random import randint, randrange
 from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
-from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL
+from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
+    STATUS_CHANGE_TIMEOUT_SECS
 # Change this import line to change GPP
 from gpp.catbot_monkey import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
@@ -18,8 +20,13 @@ client = commands.Bot(command_prefix='!catbot ')
 @client.event
 async def on_ready():
     await client.edit_profile(username=NAME)
-    await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
     print('{} with id {} is ready, myan!'.format(client.user.name, client.user.id))
+    await shuffle_status_and_loop()  # Loops forever
+
+async def shuffle_status_and_loop():
+    while True:
+        await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
+        await sleep(STATUS_CHANGE_TIMEOUT_SECS)
 
 @client.event
 async def on_message(message):
@@ -27,6 +34,7 @@ async def on_message(message):
         return
     # Catbot was mentioned
     await client.send_message(message.channel, RESPONSES[randrange(len(PLAYING))])
+
 
 # COMMANDS
 
