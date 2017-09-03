@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2e0b5c59-f9b3-482b-b4c2-5f5ef4dd487d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/catbot.py" afterPath="$PROJECT_DIR$/catbot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constants.py" afterPath="$PROJECT_DIR$/constants.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,8 +31,8 @@
       <file leaf-file-name="catbot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/catbot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+            <state relative-caret-position="44">
+              <caret line="117" column="24" lean-forward="false" selection-start-line="117" selection-start-column="10" selection-end-line="117" selection-end-column="24" />
               <folding>
                 <element signature="e#38#63#0" expanded="true" />
               </folding>
@@ -330,7 +329,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/catbot.py</url>
-          <line>163</line>
+          <line>151</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -720,16 +719,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/old-src/gpp/default.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -746,10 +735,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/catbot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="79" column="0" lean-forward="true" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+        <state relative-caret-position="44">
+          <caret line="117" column="24" lean-forward="false" selection-start-line="117" selection-start-column="10" selection-end-line="117" selection-end-column="24" />
           <folding>
             <element signature="e#38#63#0" expanded="true" />
           </folding>

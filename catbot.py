@@ -65,11 +65,6 @@ async def catbot_identify(img_url: str):
         return
     await client.say('That looks like **{}**!!'.format(result['identify']['title']))
 
-@client.command(name='img', pass_context=True)
-async def catbot_img(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
-
 @client.command(name='jack in')
 async def catbot_jack_in():
     await client.say(CATBOT_JACK_IN_TEXT)
@@ -80,11 +75,6 @@ async def catbot_pet():
 
 @client.command(name='play', pass_context=True)
 async def catbot_play(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
-
-@client.command(name='react', pass_context=True)
-async def catbot_react(ctx):
     message_text = ctx.clean_content
     pass  # TODO
 
@@ -124,14 +114,12 @@ async def catbot_say(ctx):
     message_text = ctx.clean_content
     pass  # TODO
 
-@client.command(name='shut up', pass_context=True)
-async def catbot_shut_up(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='shut up')
+async def catbot_shut_up():
+    await catbot_stop()
 
-@client.command(name='stop', pass_context=True)
-async def catbot_stop(ctx):
-    message_text = ctx.clean_content
+@client.command(name='stop')
+async def catbot_stop():
     pass  # TODO
 
 @client.command(name='video', pass_context=True)
