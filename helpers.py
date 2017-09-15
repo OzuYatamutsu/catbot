@@ -22,17 +22,9 @@ def get_channel_by_server_and_name(client, server: Server, channel_name: str) ->
     for channel in case_insensitive_channels:
         setattr(channel, 'name', channel.name.lower())
 
-    # Get the ID; don't return the channel object itself, 'cause it's been transformed above
-    channel_id = get(
+    return get(
         case_insensitive_channels,
         server=server,
         name=channel_name.lower(),
         type=ChannelType.voice
-    ).id
-
-    return get(
-        client.get_all_channels(),
-        server=server,
-        type=ChannelType.voice,
-        id=channel_id
     )

@@ -20,15 +20,24 @@ BOT_HELP_TEXT = """
 _The cat starts shaking and sparking. It looks a little more unstable than usual._
 `ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=`
 
-@Catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).
+**Voice channels**
+!catbot play <voice_channel> <youtube_link> - Plays a YouTube video in <voice_channel>.
 
-@Catbot catfact - Returns a random catfact.
+!catbot volume <percent> - Sets Catbot's voice volume.
 
-@Catbot roll <num> [num2] - Rolls a random number between 0 - <num>, or <num> - [num2].
+!catbot stop - Stops Catbot from playing audio in voice channels.
 
-@Catbot identify <image_link> - Tries to tell you what your picture looks like!
+**Text channels**
 
-@Catbot img <search> - Finds <search> on Google Images.
+!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).
+
+!catbot catfact - Returns a random catfact.
+
+!catbot roll <num> [num2] - Rolls a random number between 0 - <num>, or <num> - [num2].
+
+!catbot identify <image_link> - Tries to tell you what your picture looks like!
+
+!catbot img <search> - Finds <search> on Google Images.
 
 "Talk to your ket!! =´∇｀=" - Jinhai
 The cat coughs up a piece of paper which reads: HEAD: 032bf45 // BRANCH: v2/py-migration

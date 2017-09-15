@@ -1,7 +1,9 @@
 # Import this module to start Catbot.
 from asyncio import sleep
-from discord import Game, User
+from ctypes.util import find_library
+from discord import Game
 from discord.ext import commands
+from discord.opus import load_opus
 from wolframalpha import Client
 from requests import get
 from random import randint, randrange
@@ -10,7 +12,7 @@ from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
     STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT
-from helpers import get_channel_by_id
+from helpers import get_channel_by_id, get_channel_by_server_and_name
 # Change this import line to change GPP
 from gpp.catbot_default import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
@@ -21,9 +23,14 @@ client = commands.Bot(command_prefix='!catbot ')
 # If set to False, disables replies
 client_reply_state = True
 
+# Ensure only one voice stream is playing at a time
+active_voice_channel = None
+active_audio_stream = None
+
 
 @client.event
 async def on_ready():
+    load_opus(find_library('opus'))
     await client.edit_profile(username=NAME)
     print('{} with id {} is ready, myan!'.format(client.user.name, client.user.id))
     await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
@@ -83,9 +90,20 @@ async def catbot_pet():
     await client.say(CATBOT_PET_TEXT)
 
 @client.command(name='play', pass_context=True)
-async def catbot_play(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+async def catbot_play(ctx, channel_name: str, youtube_link: str):
+    global active_audio_stream
+    global active_voice_channel
+
+    voice_channel = get_channel_by_server_and_name(client, ctx.message.server, channel_name)
+    if not voice_channel:
+        await client.say('Couldn\'t find channel named {}, myan! :c'.format(channel_name))
+        return
+
+    await _reset_voice_state()
+    active_voice_channel = await client.join_voice_channel(voice_channel)
+    active_audio_stream = await active_voice_channel.create_ytdl_player(youtube_link)
+    active_audio_stream.start()
+
 
 @client.command(name='roll')
 async def catbot_roll(roll_min_or_max=None, roll_max: int=None):
@@ -123,27 +141,34 @@ async def catbot_say(ctx):
     message_text = ctx.clean_content
     pass  # TODO
 
-@client.command(name='shut up')
+@client.group(name='shut', pass_context=True)
+async def shut():
+    pass  # Only exists for the meme immediately below
+
+@shut.command(name='up')
 async def catbot_shut_up():
-    await catbot_stop()
+    await client.say('Okay :c')
+    await _reset_voice_state()
 
 @client.command(name='stop')
 async def catbot_stop():
-    pass  # TODO
+    await _reset_voice_state()
 
-@client.command(name='video', pass_context=True)
-async def catbot_video(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.command(name='volume')
+async def catbot_volume(percent):
+    global active_audio_stream
 
-@client.command(name='volume', pass_context=True)
-async def catbot_volume(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+    if not active_audio_stream:
+        await client.say('I\'m not playin\' anything, myan! >:c')
+        return
+
+    percent = percent.replace('%', '')
+    await client.say('Okay!! Setting volume to {}%! :3'.format(percent))
+    active_audio_stream.volume = float(percent) * 0.01
 
 @client.group(name='_admin', pass_context=True)
 async def admin():
-    pass
+    pass  # Leave this here to establish command group
 
 @admin.command(name='chat', pass_context=True)
 async def catbot_admin_chat(ctx, channel_id: str, message: str):
@@ -161,6 +186,8 @@ async def catbot_admin_join_v(ctx, channel_id: str):
 
     if not user or not is_admin(user.id):
         return
+
+    await _reset_voice_state()
     await client.join_voice_channel(channel)
 
 @admin.command(name='t_reply', pass_context=True)
@@ -182,6 +209,25 @@ async def catbot_admin_t_reply(ctx):
 @client.command(name='help2', pass_context=True)
 async def catbot_help():
     await client.say(BOT_HELP_TEXT)
+
+
+async def _reset_voice_state():
+    global active_audio_stream
+    global active_voice_channel
+
+    try:
+        if active_audio_stream:
+            await active_audio_stream.stop()
+            active_audio_stream = None
+    except Exception as e:
+        print("Swallowing voice warning: {}".format(e))
+
+    try:
+        if active_voice_channel:
+            await active_voice_channel.disconnect()
+            active_voice_channel = None
+    except Exception as e:
+        print("Swallowing voice warning: {}".format(e))
 
 """
 TODO commands
