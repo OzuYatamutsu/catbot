@@ -1,4 +1,4 @@
-NAME = "Catbot"
+NAME = "[dev-testing] Catbot_v2"
 PLAYING = [
     "Catting around",
     "Not caring about you",

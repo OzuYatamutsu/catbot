@@ -1,6 +1,6 @@
 # Import this module to start Catbot.
 from asyncio import sleep
-from discord import Game
+from discord import Game, User
 from discord.ext import commands
 from wolframalpha import Client
 from requests import get
@@ -10,18 +10,24 @@ from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
     STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT
+from helpers import get_channel_by_id
 # Change this import line to change GPP
-from gpp.catbot_monkey import NAME, PLAYING, RESPONSES
+from gpp.catbot_default import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
 
 # Bot client object
 client = commands.Bot(command_prefix='!catbot ')
 
+# If set to False, disables replies
+client_reply_state = True
+
+
 @client.event
 async def on_ready():
     await client.edit_profile(username=NAME)
     print('{} with id {} is ready, myan!'.format(client.user.name, client.user.id))
-    await shuffle_status_and_loop()  # Loops forever
+    await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
+    # await shuffle_status_and_loop()  # Loops forever
 
 async def shuffle_status_and_loop():
     while True:
@@ -30,10 +36,13 @@ async def shuffle_status_and_loop():
 
 @client.event
 async def on_message(message):
-    if client.user.id not in message.content:
+    if client.user.id not in message.content or not client_reply_state:
+        await client.process_commands(message)
         return
+
     # Catbot was mentioned
     await client.send_message(message.channel, RESPONSES[randrange(len(PLAYING))])
+    await client.process_commands(message)
 
 
 # COMMANDS
@@ -132,20 +141,43 @@ async def catbot_volume(ctx):
     message_text = ctx.clean_content
     pass  # TODO
 
-@client.command(name='_admin chat', pass_context=True)
-async def catbot_admin_chat(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@client.group(name='_admin', pass_context=True)
+async def admin():
+    pass
 
-@client.command(name='_admin join_v', pass_context=True)
-async def catbot_admin_join_v(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+@admin.command(name='chat', pass_context=True)
+async def catbot_admin_chat(ctx, channel_id: str, message: str):
+    user = ctx.message.author
+    channel = get_channel_by_id(client, channel_id)
 
-@client.command(name='_admin t_reply', pass_context=True)
+    if not user or not channel or not is_admin(user.id):
+        return
+    await client.send_message(channel, message)
+
+@admin.command(name='join_v', pass_context=True)
+async def catbot_admin_join_v(ctx, channel_id: str):
+    user = ctx.message.author
+    channel = get_channel_by_id(client, channel_id)
+
+    if not user or not is_admin(user.id):
+        return
+    await client.join_voice_channel(channel)
+
+@admin.command(name='t_reply', pass_context=True)
 async def catbot_admin_t_reply(ctx):
-    message_text = ctx.clean_content
-    pass  # TODO
+    global client_reply_state
+    user = ctx.message.author
+
+    if not user or not is_admin(user.id):
+        return
+
+    # Toggle replies on or off
+    client_reply_state = not client_reply_state
+    await client.send_message(
+        ctx.message.channel,
+        'Reply state is now {}, myan!'.format(client_reply_state)
+    )
+
 
 @client.command(name='help2', pass_context=True)
 async def catbot_help():
