@@ -11,7 +11,7 @@ Do.
 ## No, but really, what do?
 Add a function to generate a response in `catbot.py`
 
-```python3
+```python
 @client.command('do-func')
 async def catbot_do_something(args: str):
     await client.say('my returned message string')
