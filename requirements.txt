@@ -1,0 +1,4 @@
+discord.py[voice]
+wolframalpha
+requests
+gTTS

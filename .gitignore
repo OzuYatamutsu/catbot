@@ -1,4 +1,8 @@
-*.swp
+node_modules/
+__pycache__/
+*.sqlite3
+.idea/
+.idea/*
 .DS_Store
-node_modules/*
-*.log
+tmp/
+tmp/*
