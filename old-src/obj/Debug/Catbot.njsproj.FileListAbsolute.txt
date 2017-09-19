@@ -1,2 +1,0 @@
-C:\Users\Sean Collins\dev\catbot\obj\Debug\Catbot.njsprojResolveAssemblyReference.cache
-C:\Users\Sean Collins\dev\catbot\bin\Microsoft.NodejsTools.WebRole.dll
