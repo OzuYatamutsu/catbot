@@ -1,4 +1,5 @@
 discord.py[voice]
 wolframalpha
 requests
+youtube_dl
 gTTS
