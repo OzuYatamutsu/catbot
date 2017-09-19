@@ -13,8 +13,8 @@ from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
-    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT
-from helpers import get_channel_by_id, get_channel_by_server_and_name, prep_tmp_directory
+    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT, COMMAND_TOKEN_MATCH_LIST
+from helpers import get_channel_by_id, get_channel_by_server_and_name, prep_tmp_directory, match_in_command_list
 # Change this import line to change GPP
 from gpp.catbot_default import NAME, PLAYING, RESPONSES
 basicConfig(level=DEBUG)
@@ -51,8 +51,13 @@ async def on_message(message):
     if client.user.id not in message.content or not client_reply_state:
         await client.process_commands(message)
         return
+    if client.user.id in message.content and match_in_command_list(client, message.clean_content):
+        # @Catbot was used to invoke a command instead of !catbot
+        message.content = message.content.replace('<@{}>'.format(client.user.id), '!catbot')
+        await client.process_commands(message)
+        return
 
-    # Catbot was mentioned
+    # Catbot was mentioned, but not as a command
     await client.send_message(message.channel, RESPONSES[randrange(len(PLAYING))])
     await client.process_commands(message)
 
@@ -224,11 +229,9 @@ async def catbot_admin_t_reply(ctx):
         'Reply state is now {}, myan!'.format(client_reply_state)
     )
 
-
 @client.command(name='help', pass_context=True)
 async def catbot_help():
     await client.say(BOT_HELP_TEXT)
-
 
 async def _reset_voice_state():
     global active_audio_stream
@@ -247,30 +250,6 @@ async def _reset_voice_state():
             active_voice_channel = None
     except Exception as e:
         print("Swallowing voice warning: {}".format(e))
-
-"""
-TODO commands
-
-"!catbot alpha"
-"!catbot catfact"
-"!catbot goodshit"
-"!catbot identify"
-"!catbot img"
-"!catbot jack in"
-"!catbot pet"
-"!catbot play"
-"!catbot react"
-"!catbot roll"
-"!catbot say"
-"!catbot shut up"
-"!catbot stop"
-"!catbot video"
-"!catbot volume"
-"!catbot _admin chat"
-"!catbot _admin join_v"
-"!catbot _admin t_reply"
-"!catbot help"
-"""
 
 # Connect and start
 print("STARTING")

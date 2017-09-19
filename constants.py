@@ -16,35 +16,39 @@ DB_GOOGLE_API_KEY_NAME = 'google'
 DB_GOOGLE_IMAGES_API_KEY_NAME = 'google_images'
 DB_WOLFRAM_API_KEY_NAME = 'wolfram'
 
+COMMAND_TOKEN_MATCH_LIST = []
+
 BOT_HELP_TEXT = """
-_The cat starts shaking and sparking. It looks a little more unstable than usual._
 `ａｈｈ　ｙｉｓｓ，　ｄａ　ＨＥＬＰＴＥＸＴ　ｙｏｕ　ｏｒｄｅｒ　=｀ω´=`
 
 **Voice channels**
-!catbot play <voice_channel> <youtube_link> - Plays a YouTube video in <voice_channel>.
+`!catbot play <voice_channel> <youtube_link>` - Plays a YouTube video in <voice_channel>.
 
-!catbot volume <percent> - Sets Catbot's voice volume.
+`!catbot say <voice_channel> <text>` - Catbot says <text> in <voice_channel>.
 
-!catbot stop - Stops Catbot from playing audio in voice channels.
+`!catbot volume <percent>` - Sets Catbot's voice volume.
+
+`!catbot stop` - Stops Catbot from playing audio in voice channels.
 
 **Text channels**
+`!catbot alpha <search>` - Interprets <search> and gives you an answer (Wolfram|Alpha).
 
-!catbot alpha <search> - Interprets <search> and gives you an answer (Wolfram|Alpha).
+`!catbot catfact` - Returns a random catfact.
 
-!catbot catfact - Returns a random catfact.
+`!catbot roll <num> [num2]` - Rolls a random number between 0 - <num>, or <num> - [num2].
 
-!catbot roll <num> [num2] - Rolls a random number between 0 - <num>, or <num> - [num2].
+`!catbot identify <image_link>` - Tries to tell you what your picture looks like!
 
-!catbot identify <image_link> - Tries to tell you what your picture looks like!
+`!catbot img <search>` - Finds <search> on Google Images.
 
-!catbot img <search> - Finds <search> on Google Images.
-
-"Talk to your ket!! =´∇｀=" - Jinhai
-The cat coughs up a piece of paper which reads: HEAD: 032bf45 // BRANCH: v2/py-migration
+```
+"Talk to your ket!! =´∇｀="
+ - Jinhai.
+``` 
 """
 
 BOT_ROLL_DEFAULT_MAX = 20
-CATFACT_URL = "http://caas.steakscorp.org/api/"
+CATFACT_URL = "https://caas.steakscorp.org/api/"
 CATBOT_GOODSHIT_TEXT = "👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　" \
                        "ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 " \
                        "right ✔ ✔ there ✔ ✔ if iｇｏ　ｋｅｔ　ｍ　ｙ　ｓｅｌ　ｆ 💯 I sssａｙ　ｓｏ 💯 ｔｈａｔ　ｗａｔ　" \

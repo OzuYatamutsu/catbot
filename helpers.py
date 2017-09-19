@@ -40,3 +40,14 @@ def prep_tmp_directory():
     if path.isdir(tmp_path):
         rmtree(tmp_path)
     makedirs(tmp_path)
+
+def match_in_command_list(client, message_text: str) -> bool:
+    """
+    Returns True if an @Catbot mention corresponds to a !catbot command.
+    """
+
+    return any(
+        cmd_token.lower() in message_text.lower() for cmd_token in [
+            command.format('@{}'.format(client.user.name.lower())) for command in list(client.commands)
+        ]
+    )
