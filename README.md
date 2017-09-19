@@ -17,7 +17,7 @@ async def catbot_do_something(args: str):
     await client.say('my returned message string')
 ```
 
-* You're good, myan!! 
+* You're good, dood!! 
 <img src="https://raw.githubusercontent.com/OzuYatamutsu/catbot/master/catbot_ex1.png" />
 
 ## I want to customize responses/username/statuses or somethin'
