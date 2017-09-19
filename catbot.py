@@ -230,7 +230,7 @@ async def catbot_admin_t_reply(ctx):
     )
 
 @admin.command(name='set_status', pass_context=True)
-async def catbot_admin_set_status(ctx, message: str):
+async def catbot_admin_set_status(ctx, *, message: str):
     user = ctx.message.author
 
     if not user or not is_admin(user.id):
