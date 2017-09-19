@@ -1,3 +1,5 @@
+from shutil import rmtree
+from os import makedirs, path, getcwd, sep
 from discord import Server, Channel, ChannelType
 from discord.utils import get
 
@@ -28,3 +30,13 @@ def get_channel_by_server_and_name(client, server: Server, channel_name: str) ->
         name=channel_name.lower(),
         type=ChannelType.voice
     )
+
+def prep_tmp_directory():
+    """
+    Cleans ./tmp of any temporary files. If it does not exist, creates it.
+    """
+
+    tmp_path = '{}{}{}'.format(getcwd(), sep, 'tmp')
+    if path.isdir(tmp_path):
+        rmtree(tmp_path)
+    makedirs(tmp_path)
