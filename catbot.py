@@ -13,7 +13,7 @@ from logging import basicConfig, DEBUG
 from db_interface import get_api_key, is_admin
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
-    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT, COMMAND_TOKEN_MATCH_LIST
+    STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT, DISABLE_STATUS_LOOP
 from helpers import get_channel_by_id, get_channel_by_server_and_name, prep_tmp_directory, match_in_command_list
 # Change this import line to change GPP
 from gpp.catbot_default import NAME, PLAYING, RESPONSES
@@ -37,9 +37,9 @@ async def on_ready():
     prep_tmp_directory()
     if client.user.name != NAME:
         await client.edit_profile(username=NAME)
-    await client.change_presence(game=Game(name=PLAYING[randrange(len(PLAYING))]))
     print('{} with id {} is ready, myan!'.format(client.user.name, client.user.id))
-    # await shuffle_status_and_loop()  # Loops forever
+    if not DISABLE_STATUS_LOOP:
+        await shuffle_status_and_loop()  # Loops forever
 
 async def shuffle_status_and_loop():
     while True:

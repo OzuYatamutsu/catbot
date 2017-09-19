@@ -48,6 +48,7 @@ BOT_HELP_TEXT = """
 """
 
 BOT_ROLL_DEFAULT_MAX = 20
+DISABLE_STATUS_LOOP = True
 CATFACT_URL = "https://caas.steakscorp.org/api/"
 CATBOT_GOODSHIT_TEXT = "👌 👀 👌 👀 👌 👀 👌 👀 👌 👀 ｇｏｏｄ　ｓｈＩｔ　ｇｏＯＤ　ＳＨＩ　Ｔ 👌 ｔ　ｈａｔ＇ｓ　ｓｏｍｅ　" \
                        "ＧＯＯＤ　ＫＥＴ　✔ ｒｉｇht dere b0ss . =｀ω´= 🙀 🙀 🙀 some gOODSHhit right 👌 👌 there 👌 👌 👌 " \
