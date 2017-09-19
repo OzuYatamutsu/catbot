@@ -229,6 +229,14 @@ async def catbot_admin_t_reply(ctx):
         'Reply state is now {}, myan!'.format(client_reply_state)
     )
 
+@admin.command(name='set_status', pass_context=True)
+async def catbot_admin_set_status(ctx, message: str):
+    user = ctx.message.author
+
+    if not user or not is_admin(user.id):
+        return
+    await client.change_presence(game=Game(name=message))
+
 @client.command(name='help', pass_context=True)
 async def catbot_help():
     await client.say(BOT_HELP_TEXT)
