@@ -205,6 +205,8 @@ async def catbot_admin_chat(ctx, channel_id: str, message: str):
 
 @admin.command(name='join_v', pass_context=True)
 async def catbot_admin_join_v(ctx, channel_id: str):
+    global active_voice_channel
+
     user = ctx.message.author
     channel = get_channel_by_id(client, channel_id)
 
@@ -212,7 +214,7 @@ async def catbot_admin_join_v(ctx, channel_id: str):
         return
 
     await _reset_voice_state()
-    await client.join_voice_channel(channel)
+    active_voice_channel = await client.join_voice_channel(channel)
 
 @admin.command(name='t_reply', pass_context=True)
 async def catbot_admin_t_reply(ctx):
