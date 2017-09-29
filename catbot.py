@@ -195,7 +195,7 @@ async def admin():
     pass  # Leave this here to establish command group
 
 @admin.command(name='chat', pass_context=True)
-async def catbot_admin_chat(ctx, channel_id: str, message: str):
+async def catbot_admin_chat(ctx, channel_id: str, *, message: str):
     user = ctx.message.author
     channel = get_channel_by_id(client, channel_id)
 
