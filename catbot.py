@@ -91,7 +91,11 @@ async def catbot_identify(img_url: str):
         return
     await client.say('That looks like **{}**!!'.format(result['identify']['title']))
 
-@client.command(name='jack in')
+@client.group(name='jack', pass_context=True)
+async def jack():
+    pass  # Only exists so "jack in" will work (multiple tokens)
+
+@jack.command(name='in')
 async def catbot_jack_in():
     await client.say(CATBOT_JACK_IN_TEXT)
 
