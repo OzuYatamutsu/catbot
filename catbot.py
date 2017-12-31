@@ -10,7 +10,7 @@ from wolframalpha import Client
 from requests import get
 from random import randint, randrange
 from logging import basicConfig, DEBUG
-from db_interface import get_api_key, is_admin
+from db_interface import get_api_key, is_admin, insert_user_change
 from database import ApiKey
 from constants import BOT_HELP_TEXT, BOT_ROLL_DEFAULT_MAX, CATFACT_URL, CATBOT_GOODSHIT_TEXT, WOLFRAM_IDENTIFY_URL, \
     STATUS_CHANGE_TIMEOUT_SECS, CATBOT_JACK_IN_TEXT, CATBOT_PET_TEXT, DISABLE_STATUS_LOOP
@@ -61,6 +61,13 @@ async def on_message(message):
     await client.send_message(message.channel, RESPONSES[randrange(len(PLAYING))])
     await client.process_commands(message)
 
+@client.event
+async def on_member_join(member):
+    insert_user_change(member.server.id, member.id, member.name, "GUILD_MEMBER_ADD")
+
+@client.event
+async def on_member_remove(member):
+    insert_user_change(member.server.id, member.id, member.name, "GUILD_MEMBER_REMOVE")
 
 # COMMANDS
 

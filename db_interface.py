@@ -1,7 +1,7 @@
 from database import DatabaseSingleton, ApiKey, DB_API_KEY_ENUM_TO_VALUE_MAP
 from constants import DB_DISCORD_API_KEY_NAME, DB_API_KEY_INSERT_QUERY, DB_CHECK_TABLE_EXIST_QUERY, \
     DB_API_KEY_CREATE_TABLE_QUERY, DB_ADMINS_CREATE_TABLE_QUERY, DB_ADMIN_INSERT_QUERY, DB_GET_API_KEY, \
-    DB_GET_ADMIN
+    DB_GET_ADMIN, DB_USER_CHANGES_CREATE_TABLE_QUERY, DB_USER_CHANGES_INSERT_QUERY
 
 
 def insert_api_key(key_type: ApiKey, value: str):
@@ -82,4 +82,23 @@ def _create_admins_table():
     cursor = db.cursor()
 
     cursor.execute(DB_ADMINS_CREATE_TABLE_QUERY)
+    db.commit()
+
+def _create_user_changes_table():
+    db = DatabaseSingleton().get_db()
+    cursor = db.cursor()
+
+    cursor.execute(DB_USER_CHANGES_CREATE_TABLE_QUERY)
+    db.commit()
+
+def insert_user_change(guild_id, user_id, username, status_change):
+    if not does_table_exist('user_changes'):
+        _create_user_changes_table()
+
+    db = DatabaseSingleton().get_db()
+    cursor = db.cursor()
+
+    cursor.execute(DB_USER_CHANGES_INSERT_QUERY,
+    (guild_id, user_id, username, status_change))
+
     db.commit()
