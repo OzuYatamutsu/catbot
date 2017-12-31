@@ -203,7 +203,7 @@ async def catbot_admin_chat(ctx, channel_id: str, *, message: str):
     user = ctx.message.author
     channel = get_channel_by_id(client, channel_id)
 
-    if not user or not channel or not is_admin(user.id):
+    if not user or not channel or not is_admin(int(user.id)):
         return
     await client.send_message(channel, message)
 
@@ -214,7 +214,7 @@ async def catbot_admin_join_v(ctx, channel_id: str):
     user = ctx.message.author
     channel = get_channel_by_id(client, channel_id)
 
-    if not user or not is_admin(user.id):
+    if not user or not is_admin(int(user.id)):
         return
 
     await _reset_voice_state()
@@ -225,7 +225,7 @@ async def catbot_admin_t_reply(ctx):
     global client_reply_state
     user = ctx.message.author
 
-    if not user or not is_admin(user.id):
+    if not user or not is_admin(int(user.id)):
         return
 
     # Toggle replies on or off
@@ -239,7 +239,7 @@ async def catbot_admin_t_reply(ctx):
 async def catbot_admin_set_status(ctx, *, message: str):
     user = ctx.message.author
 
-    if not user or not is_admin(user.id):
+    if not user or not is_admin(int(user.id)):
         return
     await client.change_presence(game=Game(name=message))
 
