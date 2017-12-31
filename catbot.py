@@ -243,6 +243,20 @@ async def catbot_admin_set_status(ctx, *, message: str):
         return
     await client.change_presence(game=Game(name=message))
 
+@admin.command(name='is_admin', pass_context=True)
+async def catbot_admin_check_admin_state(ctx, *, message: str):
+    user = ctx.message.author
+
+    if not user or not is_admin(int(user.id)):
+        return
+
+    check: bool = is_admin(int(message))
+
+    await client.send_message(
+        ctx.message.channel,
+        'Yeah!! :D' if check else 'Nah :c'
+    )
+
 @client.command(name='help', pass_context=True)
 async def catbot_help():
     await client.say(BOT_HELP_TEXT)
