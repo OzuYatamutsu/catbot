@@ -99,7 +99,9 @@ def insert_user_change(guild_id, user_id, username, status_change):
     db = DatabaseSingleton().get_db()
     cursor = db.cursor()
 
-    cursor.execute(DB_USER_CHANGES_INSERT_QUERY,
-    (guild_id, user_id, username, status_change, int(datetime.today().timestamp())))
+    cursor.execute(
+        DB_USER_CHANGES_INSERT_QUERY,
+        (guild_id, user_id, username, status_change, int(datetime.today().timestamp()))
+    )
 
     db.commit()
