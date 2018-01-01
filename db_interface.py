@@ -2,6 +2,7 @@ from database import DatabaseSingleton, ApiKey, DB_API_KEY_ENUM_TO_VALUE_MAP
 from constants import DB_DISCORD_API_KEY_NAME, DB_API_KEY_INSERT_QUERY, DB_CHECK_TABLE_EXIST_QUERY, \
     DB_API_KEY_CREATE_TABLE_QUERY, DB_ADMINS_CREATE_TABLE_QUERY, DB_ADMIN_INSERT_QUERY, DB_GET_API_KEY, \
     DB_GET_ADMIN, DB_USER_CHANGES_CREATE_TABLE_QUERY, DB_USER_CHANGES_INSERT_QUERY
+from datetime import datetime
 
 
 def insert_api_key(key_type: ApiKey, value: str):
@@ -99,6 +100,6 @@ def insert_user_change(guild_id, user_id, username, status_change):
     cursor = db.cursor()
 
     cursor.execute(DB_USER_CHANGES_INSERT_QUERY,
-    (guild_id, user_id, username, status_change))
+    (guild_id, user_id, username, status_change, int(datetime.today().timestamp())))
 
     db.commit()
