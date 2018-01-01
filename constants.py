@@ -6,13 +6,13 @@ DB_ADMINS_CREATE_TABLE_QUERY = """CREATE TABLE IF NOT EXISTS admins
                                   (user_id real PRIMARY KEY)"""
 DB_USER_CHANGES_CREATE_TABLE_QUERY = """CREATE TABLE IF NOT EXISTS user_changes
                                   (guild_id NUMERIC, user_id NUMERIC, username TEXT,
-                                   status_change TEXT, PRIMARY KEY (guild_id, user_id));"""
+                                   status_change TEXT, timestamp INTEGER , PRIMARY KEY (guild_id, user_id, timestamp));"""
 
 
 DB_CHECK_TABLE_EXIST_QUERY = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?"
 DB_API_KEY_INSERT_QUERY = "INSERT INTO api_keys VALUES (?,?)"
 DB_ADMIN_INSERT_QUERY = "INSERT INTO admins VALUES (?)"
-DB_USER_CHANGES_INSERT_QUERY = "INSERT INTO user_changes VALUES (?,?,?,?)"
+DB_USER_CHANGES_INSERT_QUERY = "INSERT INTO user_changes VALUES (?,?,?,?,?)"
 DB_GET_API_KEY = "SELECT value FROM api_keys WHERE type=?"
 DB_GET_ADMIN = "SELECT user_id FROM admins WHERE user_id=?"
 
