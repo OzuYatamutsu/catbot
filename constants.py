@@ -6,7 +6,8 @@ DB_ADMINS_CREATE_TABLE_QUERY = """CREATE TABLE IF NOT EXISTS admins
                                   (user_id real PRIMARY KEY)"""
 DB_USER_CHANGES_CREATE_TABLE_QUERY = """CREATE TABLE IF NOT EXISTS user_changes
                                   (guild_id NUMERIC, user_id NUMERIC, username TEXT,
-                                   status_change TEXT, timestamp INTEGER , PRIMARY KEY (guild_id, user_id, timestamp));"""
+                                   status_change TEXT, timestamp INTEGER,
+                                   PRIMARY KEY (guild_id, user_id, timestamp))"""
 
 
 DB_CHECK_TABLE_EXIST_QUERY = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=?"
