@@ -24,12 +24,23 @@ def get_channel_by_server_and_name(client, server: Server, channel_name: str) ->
     for channel in case_insensitive_channels:
         setattr(channel, 'name', channel.name.lower())
 
-    return get(
+    result = get(
         case_insensitive_channels,
         server=server,
         name=channel_name.lower(),
         type=ChannelType.voice
     )
+
+    if result:
+        return result
+    return get(
+        case_insensitive_channels,
+        server=server,
+        id=channel_name.lower(),
+        type=ChannelType.voice
+    )
+
+
 
 def prep_tmp_directory():
     """
